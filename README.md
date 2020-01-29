@@ -21,9 +21,9 @@ This **stm32f3xx_hal_driver** MCU component repo is one element of the STM32Cube
 
 ## License
 
-Copyright (c) 2017 STMicroelectronics.
+Copyright (c) 2016 STMicroelectronics.
 
-This software component is licensed by STMicroelectronics under BSD 3-Clause license. You may not use this file except in compliance with the License. 
+This software component is licensed by STMicroelectronics under BSD-3-Clause license. You may not use this software except in compliance with the License. 
 You may obtain a copy of the License [here](https://opensource.org/licenses/BSD-3-Clause).
 
 ## Compatibility information
@@ -35,6 +35,7 @@ It is **crucial** that you use a consistent set of versions for the CMSIS Core -
 HAL Driver F3 | CMSIS Device F3 | CMSIS Core | Was delivered in the full MCU package
 ------------- | --------------- | ---------- | -------------------------------------
 Tag v1.5.2 | Tag v2.3.3 | Tag v4.5_cm4 | Tag v1.10.0 (and following, if any, till next new tag)
+Tag v1.5.3 | Tag v2.3.4 | Tag v5.4.0_cm4 | Tag v1.11.0 (and following, if any, till next new tag)
 
 The full **STM32CubeF3** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeF3).
 
