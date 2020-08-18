@@ -26,6 +26,10 @@ Copyright (c) 2016 STMicroelectronics.
 This software component is licensed by STMicroelectronics under BSD-3-Clause license. You may not use this software except in compliance with the License. 
 You may obtain a copy of the License [here](https://opensource.org/licenses/BSD-3-Clause).
 
+## Release note
+
+Details about the content of this release are available in the release note [here](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/stm32f3xx_hal_driver/blob/master/Release_Notes.html).
+
 ## Compatibility information
 
 In this table, you can find the successive versions of this HAL-LL Driver component, in line with the corresponding versions of the full MCU package:
@@ -36,6 +40,7 @@ HAL Driver F3 | CMSIS Device F3 | CMSIS Core | Was delivered in the full MCU pac
 ------------- | --------------- | ---------- | -------------------------------------
 Tag v1.5.2 | Tag v2.3.3 | Tag v4.5_cm4 | Tag v1.10.0 (and following, if any, till next new tag)
 Tag v1.5.3 | Tag v2.3.4 | Tag v5.4.0_cm4 | Tag v1.11.0 (and following, if any, till next new tag)
+Tag v1.5.4 | Tag v2.3.4 | Tag v5.4.0_cm4 | Tag v1.11.1 (and following, if any, till next new tag)
 
 The full **STM32CubeF3** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeF3).
 
