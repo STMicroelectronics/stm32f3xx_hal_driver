@@ -1501,7 +1501,10 @@ HAL_StatusTypeDef HAL_UART_DMAResume(UART_HandleTypeDef *huart)
     __HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_OREF);
 
     /* Re-enable PE and ERR (Frame error, noise error, overrun error) interrupts */
-    ATOMIC_SET_BIT(huart->Instance->CR1, USART_CR1_PEIE);
+    if (huart->Init.Parity != UART_PARITY_NONE)
+    {    
+      ATOMIC_SET_BIT(huart->Instance->CR1, USART_CR1_PEIE);
+    }
     ATOMIC_SET_BIT(huart->Instance->CR3, USART_CR3_EIE);
 
     /* Enable the UART DMA Rx request */
@@ -3226,7 +3229,14 @@ HAL_StatusTypeDef UART_Start_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pDat
   __HAL_UNLOCK(huart);
 
   /* Enable the UART Parity Error interrupt and Data Register Not Empty interrupt */
-  ATOMIC_SET_BIT(huart->Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
+  if (huart->Init.Parity != UART_PARITY_NONE)
+  { 
+    ATOMIC_SET_BIT(huart->Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
+  }
+  else
+  {
+    ATOMIC_SET_BIT(huart->Instance->CR1, USART_CR1_RXNEIE);
+  }
   return HAL_OK;
 }
 
@@ -3280,7 +3290,10 @@ HAL_StatusTypeDef UART_Start_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pDa
   __HAL_UNLOCK(huart);
 
   /* Enable the UART Parity Error Interrupt */
-  ATOMIC_SET_BIT(huart->Instance->CR1, USART_CR1_PEIE);
+  if (huart->Init.Parity != UART_PARITY_NONE)
+  {
+    ATOMIC_SET_BIT(huart->Instance->CR1, USART_CR1_PEIE);
+  }
 
   /* Enable the UART Error Interrupt: (Frame error, noise error, overrun error) */
   ATOMIC_SET_BIT(huart->Instance->CR3, USART_CR3_EIE);
