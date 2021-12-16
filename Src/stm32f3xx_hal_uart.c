@@ -2947,7 +2947,7 @@ HAL_StatusTypeDef UART_SetConfig(UART_HandleTypeDef *huart)
     /* USARTDIV must be greater than or equal to 0d16 */
     if (pclk != 0U)
     {
-      usartdiv = (uint16_t)(UART_DIV_SAMPLING8(pclk, huart->Init.BaudRate));
+      usartdiv = (uint32_t)(UART_DIV_SAMPLING8(pclk, huart->Init.BaudRate));
       if ((usartdiv >= UART_BRR_MIN) && (usartdiv <= UART_BRR_MAX))
       {
         brrtemp = (uint16_t)(usartdiv & 0xFFF0U);
@@ -2988,7 +2988,7 @@ HAL_StatusTypeDef UART_SetConfig(UART_HandleTypeDef *huart)
     if (pclk != 0U)
     {
       /* USARTDIV must be greater than or equal to 0d16 */
-      usartdiv = (uint16_t)(UART_DIV_SAMPLING16(pclk, huart->Init.BaudRate));
+      usartdiv = (uint32_t)(UART_DIV_SAMPLING16(pclk, huart->Init.BaudRate));
       if ((usartdiv >= UART_BRR_MIN) && (usartdiv <= UART_BRR_MAX))
       {
         huart->Instance->BRR = usartdiv;
