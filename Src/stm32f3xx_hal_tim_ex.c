@@ -2184,10 +2184,11 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim,
   */
 HAL_StatusTypeDef HAL_TIMEx_RemapConfig(TIM_HandleTypeDef *htim, uint32_t Remap)
 {
-  __HAL_LOCK(htim);
 
   /* Check parameters */
   assert_param(IS_TIM_REMAP(htim->Instance, Remap));
+  
+  __HAL_LOCK(htim);
 
   /* Set the Timer remapping configuration */
   WRITE_REG(htim->Instance->OR, Remap);
