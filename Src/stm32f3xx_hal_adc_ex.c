@@ -2882,15 +2882,17 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   ADC_Common_TypeDef *tmpADC_Common;
   uint32_t tmp_cfgr     = 0x0U;
   uint32_t tmp_cfgr_jqm = 0x0U;
-  
+  uint32_t tmp_isr = hadc->Instance->ISR;
+  uint32_t tmp_ier = hadc->Instance->IER;
+
   /* Check the parameters */
   assert_param(IS_ADC_ALL_INSTANCE(hadc->Instance));
   assert_param(IS_FUNCTIONAL_STATE(hadc->Init.ContinuousConvMode));
   assert_param(IS_ADC_EOC_SELECTION(hadc->Init.EOCSelection));
   
   /* ========== Check End of Conversion flag for regular group ========== */
-  if( (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_EOC) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_EOC)) || 
-      (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_EOS) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_EOS))   )
+  if( (((tmp_isr & ADC_FLAG_EOC) == ADC_FLAG_EOC) && ((tmp_ier & ADC_IT_EOC) == ADC_IT_EOC)) ||
+      (((tmp_isr & ADC_FLAG_EOS) == ADC_FLAG_EOS) && ((tmp_ier & ADC_IT_EOS) == ADC_IT_EOS))   )
   {
     /* Update state machine on conversion status if not in error state */
     if (HAL_IS_BIT_CLR(hadc->State, HAL_ADC_STATE_ERROR_INTERNAL))
@@ -2918,7 +2920,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
        (READ_BIT(tmp_cfgr, ADC_CFGR_CONT) == RESET)  )
     {
       /* If End of Sequence is reached, disable interrupts */
-      if( __HAL_ADC_GET_FLAG(hadc, ADC_FLAG_EOS) )
+      if((tmp_isr & ADC_FLAG_EOS) == ADC_FLAG_EOS)
       {
         /* Allowed to modify bits ADC_IT_EOC/ADC_IT_EOS only if bit           */
         /* ADSTART==0 (no conversion on going)                                */
@@ -2971,8 +2973,8 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   
   
   /* ========== Check End of Conversion flag for injected group ========== */
-  if( (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_JEOC) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_JEOC)) ||   
-      (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_JEOS) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_JEOS))   )
+  if( (((tmp_isr & ADC_FLAG_JEOC) == ADC_FLAG_JEOC) && ((tmp_ier & ADC_IT_JEOC) == ADC_IT_JEOC)) ||
+      (((tmp_isr & ADC_FLAG_JEOS) == ADC_FLAG_JEOS) && ((tmp_ier & ADC_IT_JEOS) == ADC_IT_JEOS))   )
   {
     /* Set ADC state */
     SET_BIT(hadc->State, HAL_ADC_STATE_INJ_EOC);
@@ -3001,7 +3003,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
           (READ_BIT (tmp_cfgr, ADC_CFGR_CONT) == RESET)   )   )
       {
         /* If End of Sequence is reached, disable interrupts */
-        if( __HAL_ADC_GET_FLAG(hadc, ADC_FLAG_JEOS))
+        if((tmp_isr & ADC_FLAG_JEOS) == ADC_FLAG_JEOS)
         {
           
           /* Get relevant register CFGR in ADC instance of ADC master or slave  */
@@ -3067,7 +3069,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   }
   
   /* ========== Check analog watchdog 1 flag ========== */
-  if (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_AWD1) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_AWD1))
+  if(((tmp_isr & ADC_FLAG_AWD1) == ADC_FLAG_AWD1) && ((tmp_ier & ADC_IT_AWD1) == ADC_IT_AWD1))
   {
     /* Set ADC state */
     SET_BIT(hadc->State, HAL_ADC_STATE_AWD1);
@@ -3083,7 +3085,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   }
   
   /* ========== Check analog watchdog 2 flag ========== */
-  if (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_AWD2) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_AWD2))
+  if(((tmp_isr & ADC_FLAG_AWD2) == ADC_FLAG_AWD2) && ((tmp_ier & ADC_IT_AWD2) == ADC_IT_AWD2))
   {
     /* Set ADC state */
     SET_BIT(hadc->State, HAL_ADC_STATE_AWD2);
@@ -3095,7 +3097,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   } 
   
   /* ========== Check analog watchdog 3 flag ========== */
-  if (__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_AWD3) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_AWD3)) 
+  if(((tmp_isr & ADC_FLAG_AWD3) == ADC_FLAG_AWD3) && ((tmp_ier & ADC_IT_AWD3) == ADC_IT_AWD3))
   {
     /* Set ADC state */
     SET_BIT(hadc->State, HAL_ADC_STATE_AWD3);
@@ -3107,7 +3109,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   }
   
   /* ========== Check Overrun flag ========== */
-  if(__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_OVR) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_OVR))
+  if(((tmp_isr & ADC_FLAG_OVR) == ADC_FLAG_OVR) && ((tmp_ier & ADC_IT_OVR) == ADC_IT_OVR))
   {
     /* If overrun is set to overwrite previous data (default setting),        */
     /* overrun event is not considered as an error.                           */
@@ -3167,7 +3169,7 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   
   
   /* ========== Check Injected context queue overflow flag ========== */
-  if(__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_JQOVF) && __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_JQOVF))
+  if(((tmp_isr & ADC_FLAG_JQOVF) == ADC_FLAG_JQOVF) && ((tmp_ier & ADC_IT_JQOVF) == ADC_IT_JQOVF))
   {
       /* Update ADC state machine to error */
       SET_BIT(hadc->State, HAL_ADC_STATE_INJ_JQOVF);
@@ -3196,6 +3198,9 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   */
 void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
 {
+  uint32_t tmp_sr = hadc->Instance->SR;
+  uint32_t tmp_cr1 = hadc->Instance->CR1;
+
   /* Check the parameters */
   assert_param(IS_ADC_ALL_INSTANCE(hadc->Instance));
   assert_param(IS_FUNCTIONAL_STATE(hadc->Init.ContinuousConvMode));
@@ -3203,9 +3208,9 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   
   
   /* ========== Check End of Conversion flag for regular group ========== */
-  if(__HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_EOC))
+  if((tmp_cr1 & ADC_IT_EOC) == ADC_IT_EOC)
   {
-    if(__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_EOC) )
+    if((tmp_sr & ADC_FLAG_EOC) == ADC_FLAG_EOC)
     {
       /* Update state machine on conversion status if not in error state */
       if (HAL_IS_BIT_CLR(hadc->State, HAL_ADC_STATE_ERROR_INTERNAL))
@@ -3247,9 +3252,9 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   }
   
   /* ========== Check End of Conversion flag for injected group ========== */
-  if(__HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_JEOC))
+  if((tmp_cr1 & ADC_IT_JEOC) == ADC_IT_JEOC)
   {
-    if(__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_JEOC))
+    if((tmp_sr & ADC_FLAG_JEOC) == ADC_FLAG_JEOC)
     {
       /* Update state machine on conversion status if not in error state */
       if (HAL_IS_BIT_CLR(hadc->State, HAL_ADC_STATE_ERROR_INTERNAL))
@@ -3295,9 +3300,9 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   }
    
   /* ========== Check Analog watchdog flags ========== */
-  if(__HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_AWD))
+  if((tmp_cr1 & ADC_IT_AWD) == ADC_IT_AWD)
   {
-    if(__HAL_ADC_GET_FLAG(hadc, ADC_FLAG_AWD))
+    if((tmp_sr & ADC_FLAG_AWD) == ADC_FLAG_AWD)
     {
       /* Set ADC state */
       SET_BIT(hadc->State, HAL_ADC_STATE_AWD1);
