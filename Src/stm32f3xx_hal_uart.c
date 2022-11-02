@@ -3129,10 +3129,11 @@ HAL_StatusTypeDef UART_CheckIdleState(UART_HandleTypeDef *huart)
 }
 
 /**
-  * @brief  Handle UART Communication Timeout.
+  * @brief  This function handles UART Communication Timeout. It waits
+  *                  until a flag is no longer in the specified status.
   * @param huart     UART handle.
   * @param Flag      Specifies the UART flag to check
-  * @param Status    Flag status (SET or RESET)
+  * @param Status    The actual Flag status (SET or RESET)
   * @param Tickstart Tick start value
   * @param Timeout   Timeout duration
   * @retval HAL status
