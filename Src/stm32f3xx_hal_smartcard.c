@@ -2448,11 +2448,12 @@ static HAL_StatusTypeDef SMARTCARD_CheckIdleState(SMARTCARD_HandleTypeDef *hsmar
 }
 
 /**
-  * @brief  Handle SMARTCARD Communication Timeout.
+  * @brief  Handle SMARTCARD Communication Timeout. It waits
+  *         until a flag is no longer in the specified status.
   * @param  hsmartcard Pointer to a SMARTCARD_HandleTypeDef structure that contains
   *                   the configuration information for the specified SMARTCARD module.
   * @param  Flag Specifies the SMARTCARD flag to check.
-  * @param  Status The new Flag status (SET or RESET).
+  * @param  Status The actual Flag status (SET or RESET).
   * @param  Tickstart Tick start value
   * @param  Timeout Timeout duration.
   * @retval HAL status
