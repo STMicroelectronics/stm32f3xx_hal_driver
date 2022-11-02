@@ -2662,10 +2662,11 @@ static void USART_DMARxAbortCallback(DMA_HandleTypeDef *hdma)
 
 
 /**
-  * @brief  Handle USART Communication Timeout.
+  * @brief  Handle USART Communication Timeout. It waits
+  *         until a flag is no longer in the specified status.
   * @param  husart USART handle.
   * @param  Flag Specifies the USART flag to check.
-  * @param  Status the Flag status (SET or RESET).
+  * @param  Status the actual Flag status (SET or RESET).
   * @param  Tickstart Tick start value
   * @param  Timeout timeout duration.
   * @retval HAL status
