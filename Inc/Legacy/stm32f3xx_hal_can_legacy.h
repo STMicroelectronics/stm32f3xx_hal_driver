@@ -146,7 +146,7 @@ typedef struct
                                        
   uint32_t BankNumber;            /*!< Select the start slave bank filter
                                        F3 devices don't support CAN2 interface (Slave). Therefore this parameter
-                                       is meaningless but it has been kept for compatibility accross STM32 families */ 
+                                       is meaningless but it has been kept for compatibility across STM32 families */ 
   
 }CAN_FilterConfTypeDef;
 
