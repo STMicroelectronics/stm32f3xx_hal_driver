@@ -6131,11 +6131,6 @@ uint32_t HAL_HRTIM_GetCapturedValue(HRTIM_HandleTypeDef * hhrtim,
   default:
    {
        captured_value = 0xFFFFFFFFUL;
-
-       hhrtim->State = HAL_HRTIM_STATE_ERROR;
-
-      /* Process Unlocked */
-      __HAL_UNLOCK(hhrtim);
       break;
     }
 
@@ -6175,7 +6170,7 @@ uint32_t HAL_HRTIM_WaveformGetOutputLevel(HRTIM_HandleTypeDef * hhrtim,
                                           uint32_t TimerIdx,
                                           uint32_t Output)
 {
-  uint32_t output_level = (uint32_t)RESET;
+  uint32_t output_level;
 
   /* Check parameters */
   assert_param(IS_HRTIM_TIMER_OUTPUT(TimerIdx, Output));
@@ -6219,18 +6214,9 @@ uint32_t HAL_HRTIM_WaveformGetOutputLevel(HRTIM_HandleTypeDef * hhrtim,
 
   default:
     {
-      hhrtim->State = HAL_HRTIM_STATE_ERROR;
-
-      /* Process Unlocked */
-      __HAL_UNLOCK(hhrtim);
-
+      output_level = 0xFFFFFFFFUL;
       break;
     }
-  }
-
-  if(hhrtim->State == HAL_HRTIM_STATE_ERROR)
-  {
-     return (uint32_t)HAL_ERROR;
   }
 
   return output_level;
@@ -6264,7 +6250,7 @@ uint32_t HAL_HRTIM_WaveformGetOutputState(HRTIM_HandleTypeDef * hhrtim,
                                           uint32_t TimerIdx,
                                           uint32_t Output)
 {
-  uint32_t output_bit = (uint32_t)RESET;
+  uint32_t output_bit;
   uint32_t output_state;
 
   /* Check parameters */
@@ -6335,18 +6321,9 @@ uint32_t HAL_HRTIM_WaveformGetOutputState(HRTIM_HandleTypeDef * hhrtim,
 
   default:
     {
-      hhrtim->State = HAL_HRTIM_STATE_ERROR;
-
-      /* Process Unlocked */
-      __HAL_UNLOCK(hhrtim);
-
+      output_bit = 0UL;
       break;
     }
-  }
-
-  if(hhrtim->State == HAL_HRTIM_STATE_ERROR)
-  {
-     return (uint32_t)HAL_ERROR;
   }
 
   if ((hhrtim->Instance->sCommonRegs.OENR & output_bit) != (uint32_t)RESET)
@@ -6400,7 +6377,7 @@ uint32_t HAL_HRTIM_GetDelayedProtectionStatus(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx,
                                               uint32_t Output)
 {
-  uint32_t delayed_protection_status = (uint32_t)RESET;
+  uint32_t delayed_protection_status;
 
   /* Check parameters */
   assert_param(IS_HRTIM_TIMER_OUTPUT(TimerIdx, Output));
@@ -6448,18 +6425,9 @@ uint32_t HAL_HRTIM_GetDelayedProtectionStatus(HRTIM_HandleTypeDef * hhrtim,
 
   default:
     {
-      hhrtim->State = HAL_HRTIM_STATE_ERROR;
-
-      /* Process Unlocked */
-      __HAL_UNLOCK(hhrtim);
-
+      delayed_protection_status = 0xFFFFFFFFUL;
       break;
     }
-  }
-
-  if(hhrtim->State == HAL_HRTIM_STATE_ERROR)
-  {
-     return (uint32_t)HAL_ERROR;
   }
 
   return delayed_protection_status;
