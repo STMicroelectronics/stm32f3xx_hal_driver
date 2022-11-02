@@ -2283,21 +2283,21 @@ static HAL_StatusTypeDef IRDA_SetConfig(IRDA_HandleTypeDef *hirda)
   {
     case IRDA_CLOCKSOURCE_PCLK1:
       pclk = HAL_RCC_GetPCLK1Freq();
-      tmpreg = (uint16_t)(IRDA_DIV_SAMPLING16(pclk, hirda->Init.BaudRate));
+      tmpreg = (uint32_t)(IRDA_DIV_SAMPLING16(pclk, hirda->Init.BaudRate));
       break;
     case IRDA_CLOCKSOURCE_PCLK2:
       pclk = HAL_RCC_GetPCLK2Freq();
-      tmpreg = (uint16_t)(IRDA_DIV_SAMPLING16(pclk, hirda->Init.BaudRate));
+      tmpreg = (uint32_t)(IRDA_DIV_SAMPLING16(pclk, hirda->Init.BaudRate));
       break;
     case IRDA_CLOCKSOURCE_HSI:
-      tmpreg = (uint16_t)(IRDA_DIV_SAMPLING16(HSI_VALUE, hirda->Init.BaudRate));
+      tmpreg = (uint32_t)(IRDA_DIV_SAMPLING16(HSI_VALUE, hirda->Init.BaudRate));
       break;
     case IRDA_CLOCKSOURCE_SYSCLK:
       pclk = HAL_RCC_GetSysClockFreq();
-      tmpreg = (uint16_t)(IRDA_DIV_SAMPLING16(pclk, hirda->Init.BaudRate));
+      tmpreg = (uint32_t)(IRDA_DIV_SAMPLING16(pclk, hirda->Init.BaudRate));
       break;
     case IRDA_CLOCKSOURCE_LSE:
-      tmpreg = (uint16_t)(IRDA_DIV_SAMPLING16((uint32_t)LSE_VALUE, hirda->Init.BaudRate));
+      tmpreg = (uint32_t)(IRDA_DIV_SAMPLING16((uint32_t)LSE_VALUE, hirda->Init.BaudRate));
       break;
     default:
       ret = HAL_ERROR;
@@ -2307,7 +2307,7 @@ static HAL_StatusTypeDef IRDA_SetConfig(IRDA_HandleTypeDef *hirda)
   /* USARTDIV must be greater than or equal to 0d16 */
   if ((tmpreg >= USART_BRR_MIN) && (tmpreg <= USART_BRR_MAX))
   {
-    hirda->Instance->BRR = tmpreg;
+    hirda->Instance->BRR = (uint16_t)tmpreg;
   }
   else
   {
