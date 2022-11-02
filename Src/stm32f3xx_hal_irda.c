@@ -2365,11 +2365,12 @@ static HAL_StatusTypeDef IRDA_CheckIdleState(IRDA_HandleTypeDef *hirda)
 }
 
 /**
-  * @brief  Handle IRDA Communication Timeout.
+  * @brief  Handle IRDA Communication Timeout. It waits
+  *         until a flag is no longer in the specified status.
   * @param  hirda Pointer to a IRDA_HandleTypeDef structure that contains
   *               the configuration information for the specified IRDA module.
   * @param  Flag Specifies the IRDA flag to check.
-  * @param  Status Flag status (SET or RESET)
+  * @param  Status The actual Flag status (SET or RESET)
   * @param  Tickstart Tick start value
   * @param  Timeout Timeout duration
   * @retval HAL status
