@@ -31,7 +31,7 @@
   * @{
   */
 
-#if defined (USART1) || defined (USART2) || defined (USART3) || defined (UART4) || defined (UART5)
+#if defined(USART1) || defined(USART2) || defined(USART3) || defined(UART4) || defined(UART5)
 
 /** @addtogroup USART_LL
   * @{
@@ -40,6 +40,17 @@
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
+/** @addtogroup USART_LL_Private_Constants
+  * @{
+  */
+
+/* Definition of default baudrate value used for USART initialisation */
+#define USART_DEFAULT_BAUDRATE          (9600U)
+
+/**
+  * @}
+  */
+
 /* Private macros ------------------------------------------------------------*/
 /** @addtogroup USART_LL_Private_Macros
   * @{
@@ -196,7 +207,7 @@ ErrorStatus LL_USART_Init(USART_TypeDef *USARTx, const LL_USART_InitTypeDef *USA
   uint32_t periphclk = LL_RCC_PERIPH_FREQUENCY_NO;
 #if (!defined(RCC_CFGR3_USART2SW)||!defined (RCC_CFGR3_USART3SW))
   LL_RCC_ClocksTypeDef RCC_Clocks;
-#endif
+#endif /* USART clock selection flags */
 
   /* Check the parameters */
   assert_param(IS_UART_INSTANCE(USARTx));
@@ -254,7 +265,7 @@ ErrorStatus LL_USART_Init(USART_TypeDef *USARTx, const LL_USART_InitTypeDef *USA
       /* USART2 clock is PCLK */
       LL_RCC_GetSystemClocksFreq(&RCC_Clocks);
       periphclk = RCC_Clocks.PCLK1_Frequency;
-#endif
+#endif /* USART2 Clock selector flag */
     }
     else if (USARTx == USART3)
     {
@@ -264,7 +275,7 @@ ErrorStatus LL_USART_Init(USART_TypeDef *USARTx, const LL_USART_InitTypeDef *USA
       /* USART3 clock is PCLK */
       LL_RCC_GetSystemClocksFreq(&RCC_Clocks);
       periphclk = RCC_Clocks.PCLK1_Frequency;
-#endif
+#endif /* USART3 Clock selector flag */
     }
 #if defined(UART4)
     else if (USARTx == UART4)
@@ -315,7 +326,7 @@ ErrorStatus LL_USART_Init(USART_TypeDef *USARTx, const LL_USART_InitTypeDef *USA
 void LL_USART_StructInit(LL_USART_InitTypeDef *USART_InitStruct)
 {
   /* Set USART_InitStruct fields to default values */
-  USART_InitStruct->BaudRate            = 9600U;
+  USART_InitStruct->BaudRate            = USART_DEFAULT_BAUDRATE;
   USART_InitStruct->DataWidth           = LL_USART_DATAWIDTH_8B;
   USART_InitStruct->StopBits            = LL_USART_STOPBITS_1;
   USART_InitStruct->Parity              = LL_USART_PARITY_NONE ;
@@ -427,3 +438,5 @@ void LL_USART_ClockStructInit(LL_USART_ClockInitTypeDef *USART_ClockInitStruct)
   */
 
 #endif /* USE_FULL_LL_DRIVER */
+
+

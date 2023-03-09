@@ -9,18 +9,6 @@
   *           + Initialization and de-initialization functions
   *           + IO operation functions
   *           + Peripheral State and errors functions
-  *
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2016 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
   @verbatim     
   ==============================================================================      
                         ##### How to use this driver #####
@@ -73,7 +61,17 @@
 
   @endverbatim
   ******************************************************************************
-  */
+  * @attention
+  *
+  * Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */ 
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
@@ -653,7 +651,7 @@ void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
   * @brief  Register callbacks
   * @param  hdma                 pointer to a DMA_HandleTypeDef structure that contains
   *                               the configuration information for the specified DMA Stream.
-  * @param  CallbackID           User Callback identifer
+  * @param  CallbackID           User Callback identifier
   *                               a HAL_DMA_CallbackIDTypeDef ENUM as parameter.
   * @param  pCallback            pointer to private callback function which has pointer to 
   *                               a DMA_HandleTypeDef structure as parameter.
@@ -706,7 +704,7 @@ HAL_StatusTypeDef HAL_DMA_RegisterCallback(DMA_HandleTypeDef *hdma, HAL_DMA_Call
   * @brief  UnRegister callbacks
   * @param  hdma                 pointer to a DMA_HandleTypeDef structure that contains
   *                               the configuration information for the specified DMA Stream.
-  * @param  CallbackID           User Callback identifer
+  * @param  CallbackID           User Callback identifier
   *                               a HAL_DMA_CallbackIDTypeDef ENUM as parameter.
   * @retval HAL status
   */              
@@ -897,3 +895,4 @@ static void DMA_CalcBaseAndBitshift(DMA_HandleTypeDef *hdma)
   /**
   * @}
   */
+

@@ -284,10 +284,6 @@ ErrorStatus LL_SetFlashLatency(uint32_t Frequency)
       {
         status = ERROR;
       }
-      else
-      {
-        status = SUCCESS;
-      }
     }
   }
 

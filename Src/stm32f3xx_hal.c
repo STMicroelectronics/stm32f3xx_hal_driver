@@ -52,11 +52,11 @@
   * @{
   */
 /**
- * @brief STM32F3xx HAL Driver version number V1.5.6
+ * @brief STM32F3xx HAL Driver version number V1.5.7
    */
 #define __STM32F3xx_HAL_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
 #define __STM32F3xx_HAL_VERSION_SUB1   (0x05U) /*!< [23:16] sub1 version */
-#define __STM32F3xx_HAL_VERSION_SUB2   (0x06U) /*!< [15:8]  sub2 version */
+#define __STM32F3xx_HAL_VERSION_SUB2   (0x07U) /*!< [15:8]  sub2 version */
 #define __STM32F3xx_HAL_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
 #define __STM32F3xx_HAL_VERSION         ((__STM32F3xx_HAL_VERSION_MAIN << 24U)\
                                         |(__STM32F3xx_HAL_VERSION_SUB1 << 16U)\
@@ -129,7 +129,7 @@ HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;  /* 1KHz */
   * @note   The Systick configuration is based on HSI clock, as HSI is the clock
   *         used after a system Reset and the NVIC configuration is set to Priority group 4 
   *            
-  * @note   The time base configuration is based on MSI clock when exting from Reset.
+  * @note   The time base configuration is based on MSI clock when exiting from Reset.
   *         Once done, time base tick start incrementing.
   *         In the default implementation,Systick is used as source of time base.
   *       The tick variable is incremented each 1ms in its ISR.
@@ -334,7 +334,8 @@ HAL_StatusTypeDef HAL_SetTickFreq(HAL_TickFreqTypeDef Freq)
 
 /**
   * @brief Return tick frequency.
-  * @retval tick period in Hz
+  * @retval Tick frequency.
+  *         Value of @ref HAL_TickFreqTypeDef.
   */
 HAL_TickFreqTypeDef HAL_GetTickFreq(void)
 {
@@ -342,7 +343,7 @@ HAL_TickFreqTypeDef HAL_GetTickFreq(void)
 }
 
 /**
-  * @brief  This function provides accurate delay (in milliseconds) based 
+  * @brief  This function provides accurate delay (in milliseconds) based
   *         on variable incremented.
   * @note   In the default implementation , SysTick timer is the source of time base. 
   *         It is used to generate interrupts at regular time intervals where uwTick
@@ -527,3 +528,5 @@ void HAL_DBGMCU_DisableDBGStandbyMode(void)
 /**
   * @}
   */
+
+

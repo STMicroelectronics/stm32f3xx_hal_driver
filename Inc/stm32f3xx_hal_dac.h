@@ -64,12 +64,12 @@ typedef struct
   
   uint32_t DAC_OutputBuffer;            /*!< Specifies whether the DAC channel output buffer is enabled or disabled.
                                         This parameter can be a value of @ref DAC_output_buffer 
-                                        For a given DAC channel, is this paramater applies then DAC_OutputSwitch 
+                                        For a given DAC channel, is this parameter applies then DAC_OutputSwitch 
                                         does not apply */
   
   uint32_t DAC_OutputSwitch;            /*!< Specifies whether the DAC channel output switch is enabled or disabled.
                                         This parameter can be a value of @ref DAC_OutputSwitch 
-                                        For a given DAC channel, is this paramater applies then DAC_OutputBuffer 
+                                        For a given DAC channel, is this parameter applies then DAC_OutputBuffer 
                                         does not apply */
   
 }DAC_ChannelConfTypeDef;
@@ -209,7 +209,7 @@ typedef void (*pDAC_CallbackTypeDef)(DAC_HandleTypeDef *hdac);
   */
 
 #endif /* DAC_CR_OUTEN1 */
-/** @defgroup DAC_data_alignement DAC data alignement
+/** @defgroup DAC_data_alignment DAC data alignment
   * @{
   */
 #define DAC_ALIGN_12B_R                    (0x00000000U)
@@ -490,3 +490,4 @@ uint32_t HAL_DAC_GetError(DAC_HandleTypeDef *hdac);
 #endif
 
 #endif /* STM32F3xx_HAL_DAC_H */
+

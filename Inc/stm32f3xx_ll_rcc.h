@@ -9,10 +9,9 @@
   * Copyright (c) 2016 STMicroelectronics.
   * All rights reserved.
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
   * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
   ******************************************************************************
   */
 
@@ -2837,3 +2836,4 @@ uint32_t    LL_RCC_GetHRTIMClockFreq(uint32_t HRTIMxSource);
 #endif
 
 #endif /* __STM32F3xx_LL_RCC_H */
+

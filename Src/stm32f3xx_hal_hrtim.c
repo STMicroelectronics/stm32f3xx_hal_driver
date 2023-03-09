@@ -83,6 +83,8 @@
        operates in waveform mode, all the HRTIM features are accessible without
        any restriction. HRTIM waveform modes are managed through the set of
        functions named HAL_HRTIM_Waveform<Function>
+
+==============================================================================
                       ##### How to use this driver #####
 ==============================================================================
     [..]
@@ -1773,11 +1775,11 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOCStart_DMA(HRTIM_HandleTypeDef * hhrtim,
   /* Check the parameters */
   assert_param(IS_HRTIM_TIMER_OUTPUT(TimerIdx, OCChannel));
 
-  if((hhrtim->State == HAL_HRTIM_STATE_BUSY))
+  if(hhrtim->State == HAL_HRTIM_STATE_BUSY)
   {
      return HAL_BUSY;
   }
-  if((hhrtim->State == HAL_HRTIM_STATE_READY))
+  if(hhrtim->State == HAL_HRTIM_STATE_READY)
   {
     if((SrcAddr == 0U ) || (DestAddr == 0U ) || (Length == 0U))
     {
@@ -2390,11 +2392,11 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMStart_DMA(HRTIM_HandleTypeDef * hhrtim,
   /* Check the parameters */
   assert_param(IS_HRTIM_TIMER_OUTPUT(TimerIdx, PWMChannel));
 
-  if((hhrtim->State == HAL_HRTIM_STATE_BUSY))
+  if(hhrtim->State == HAL_HRTIM_STATE_BUSY)
   {
      return HAL_BUSY;
   }
-  if((hhrtim->State == HAL_HRTIM_STATE_READY))
+  if(hhrtim->State == HAL_HRTIM_STATE_READY)
   {
     if((SrcAddr == 0U ) || (DestAddr == 0U ) || (Length == 0U))
     {
@@ -5484,7 +5486,7 @@ HAL_StatusTypeDef HAL_HRTIM_WaveformCountStart_DMA(HRTIM_HandleTypeDef * hhrtim,
   /* Check the parameters */
   assert_param(IS_HRTIM_TIMERID(Timers));
 
-  if((hhrtim->State == HAL_HRTIM_STATE_BUSY))
+  if(hhrtim->State == HAL_HRTIM_STATE_BUSY)
   {
      return HAL_BUSY;
   }
@@ -5919,11 +5921,11 @@ HAL_StatusTypeDef HAL_HRTIM_BurstDMATransfer(HRTIM_HandleTypeDef *hhrtim,
   /* Check the parameters */
   assert_param(IS_HRTIM_TIMERINDEX(TimerIdx));
 
-  if((hhrtim->State == HAL_HRTIM_STATE_BUSY))
+  if(hhrtim->State == HAL_HRTIM_STATE_BUSY)
   {
      return HAL_BUSY;
   }
-  if((hhrtim->State == HAL_HRTIM_STATE_READY))
+  if(hhrtim->State == HAL_HRTIM_STATE_READY)
   {
     if((BurstBufferAddress == 0U ) || (BurstBufferLength == 0U))
     {
@@ -6255,6 +6257,9 @@ uint32_t HAL_HRTIM_WaveformGetOutputState(const HRTIM_HandleTypeDef * hhrtim,
 
   /* Check parameters */
   assert_param(IS_HRTIM_TIMER_OUTPUT(TimerIdx, Output));
+
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(TimerIdx);
 
   /* Set output state according to output control status and output disable status */
   switch (Output)
@@ -8379,7 +8384,7 @@ static uint32_t HRTIM_GetITFromOCMode(const HRTIM_HandleTypeDef * hhrtim,
   case HRTIM_OUTPUT_TD1:
   case HRTIM_OUTPUT_TE1:
     {
-      /* Retreives actual OC mode and set interrupt accordingly */
+      /* Retrieves actual OC mode and set interrupt accordingly */
       hrtim_set = hhrtim->Instance->sTimerxRegs[TimerIdx].SETx1R;
       hrtim_reset = hhrtim->Instance->sTimerxRegs[TimerIdx].RSTx1R;
 
@@ -8414,7 +8419,7 @@ static uint32_t HRTIM_GetITFromOCMode(const HRTIM_HandleTypeDef * hhrtim,
   case HRTIM_OUTPUT_TD2:
   case HRTIM_OUTPUT_TE2:
     {
-      /* Retreives actual OC mode and set interrupt accordingly */
+      /* Retrieves actual OC mode and set interrupt accordingly */
       hrtim_set = hhrtim->Instance->sTimerxRegs[TimerIdx].SETx2R;
       hrtim_reset = hhrtim->Instance->sTimerxRegs[TimerIdx].RSTx2R;
 
@@ -8485,7 +8490,7 @@ static uint32_t HRTIM_GetDMAFromOCMode(const HRTIM_HandleTypeDef * hhrtim,
   case HRTIM_OUTPUT_TD1:
   case HRTIM_OUTPUT_TE1:
     {
-      /* Retreives actual OC mode and set dma_request accordingly */
+      /* Retrieves actual OC mode and set dma_request accordingly */
       hrtim_set = hhrtim->Instance->sTimerxRegs[TimerIdx].SETx1R;
       hrtim_reset = hhrtim->Instance->sTimerxRegs[TimerIdx].RSTx1R;
 
@@ -8520,7 +8525,7 @@ static uint32_t HRTIM_GetDMAFromOCMode(const HRTIM_HandleTypeDef * hhrtim,
   case HRTIM_OUTPUT_TD2:
   case HRTIM_OUTPUT_TE2:
     {
-      /* Retreives actual OC mode and set dma_request accordingly */
+      /* Retrieves actual OC mode and set dma_request accordingly */
       hrtim_set = hhrtim->Instance->sTimerxRegs[TimerIdx].SETx2R;
       hrtim_reset = hhrtim->Instance->sTimerxRegs[TimerIdx].RSTx2R;
 

@@ -8,6 +8,7 @@
   *           + Initialization and de-initialization functions
   *           + Peripheral Control functions
   *
+  *
   ******************************************************************************
   * @attention
   *
@@ -726,7 +727,7 @@ HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_DMA(UART_HandleTypeDef *huart, uint8_
 HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
 {
   /* Return Rx Event type value, as stored in UART handle */
-  return(huart->RxEventType);
+  return (huart->RxEventType);
 }
 
 /**
@@ -771,3 +772,4 @@ static void UARTEx_Wakeup_AddressConfig(UART_HandleTypeDef *huart, UART_WakeUpTy
 /**
   * @}
   */
+

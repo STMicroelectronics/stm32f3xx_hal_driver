@@ -521,3 +521,4 @@ OPAMP_TrimmingValueTypeDef HAL_OPAMP_GetTrimOffset(OPAMP_HandleTypeDef *hopamp, 
 #endif
 
 #endif /* STM32F3xx_HAL_OPAMP_H */
+

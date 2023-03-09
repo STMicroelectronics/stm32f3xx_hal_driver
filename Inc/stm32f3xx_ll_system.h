@@ -3,6 +3,18 @@
   * @file    stm32f3xx_ll_system.h
   * @author  MCD Application Team
   * @brief   Header file of SYSTEM LL module.
+  *
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
   @verbatim
   ==============================================================================
                      ##### How to use this driver #####
@@ -15,16 +27,6 @@
       (+) Access to SYSCFG registers
 
   @endverbatim
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2016 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
   ******************************************************************************
   */
 
@@ -1103,7 +1105,7 @@ __STATIC_INLINE uint32_t LL_SYSCFG_IsEnabledIT_FPU_IXC(void)
   */
 __STATIC_INLINE void LL_SYSCFG_SetEXTISource(uint32_t Port, uint32_t Line)
 {
-  MODIFY_REG(SYSCFG->EXTICR[Line & 0xFF], (Line >> 16U), Port << POSITION_VAL((Line >> 16U)));
+  MODIFY_REG(SYSCFG->EXTICR[Line & 0x3U], (Line >> 16U), Port << POSITION_VAL((Line >> 16U)));
 }
 
 /**
@@ -1203,7 +1205,7 @@ __STATIC_INLINE void LL_SYSCFG_SetEXTISource(uint32_t Port, uint32_t Line)
   */
 __STATIC_INLINE uint32_t LL_SYSCFG_GetEXTISource(uint32_t Line)
 {
-  return (uint32_t)(READ_BIT(SYSCFG->EXTICR[Line & 0xFF], (Line >> 16U)) >> POSITION_VAL(Line >> 16U));
+  return (uint32_t)(READ_BIT(SYSCFG->EXTICR[Line & 0x3U], (Line >> 16U)) >> POSITION_VAL(Line >> 16U));
 }
 
 /**
@@ -1719,3 +1721,5 @@ __STATIC_INLINE uint32_t LL_FLASH_IsHalfCycleAccessEnabled(void)
 #endif
 
 #endif /* __STM32F3xx_LL_SYSTEM_H */
+
+

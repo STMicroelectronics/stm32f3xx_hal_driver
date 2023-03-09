@@ -7,6 +7,7 @@
   *          functionalities of the Universal Synchronous Receiver Transmitter Peripheral (USART).
   *           + Peripheral Control functions
   *
+  *
   ******************************************************************************
   * @attention
   *
@@ -133,3 +134,4 @@
 /**
   * @}
   */
+

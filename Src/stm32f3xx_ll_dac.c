@@ -227,7 +227,7 @@ ErrorStatus LL_DAC_DeInit(DAC_TypeDef *DACx)
   *         @arg @ref LL_DAC_CHANNEL_1
   *         @arg @ref LL_DAC_CHANNEL_2 (1)
   *         
-  *         (1) On this STM32 serie, parameter not available on all devices.
+  *         (1) On this STM32 series, parameter not available on all devices.
   *             Refer to device datasheet for channels availability.
   * @param  DAC_InitStruct Pointer to a @ref LL_DAC_InitTypeDef structure
   * @retval An ErrorStatus enumeration value:
@@ -332,3 +332,4 @@ void LL_DAC_StructInit(LL_DAC_InitTypeDef *DAC_InitStruct)
   */
 
 #endif /* USE_FULL_LL_DRIVER */
+

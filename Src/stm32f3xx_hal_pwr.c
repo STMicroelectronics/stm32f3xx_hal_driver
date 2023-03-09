@@ -19,8 +19,6 @@
   * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
-  @verbatim
-  ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -271,7 +269,7 @@ void HAL_PWR_DisableWakeUpPin(uint32_t WakeUpPinx)
   *            @arg PWR_MAINREGULATOR_ON: SLEEP mode with regulator ON
   *            @arg PWR_LOWPOWERREGULATOR_ON: SLEEP mode with low power regulator ON
   * @note This parameter has no effect in F3 family and is just maintained to 
-  *       offer full portability of other STM32 families softwares.
+  *       offer full portability of other STM32 families software.
   * @param SLEEPEntry Specifies if SLEEP mode is entered with WFI or WFE instruction.
   *           When WFI entry is used, tick interrupt have to be disabled if not desired as 
   *           the interrupt wake up source.

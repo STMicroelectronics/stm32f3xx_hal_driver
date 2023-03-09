@@ -57,7 +57,7 @@ struct __ADC_HandleTypeDef;
   *          - For all parameters except 'LowPowerAutoWait' and 'DMAContinuousRequests': ADC enabled without conversion on going on regular group.
   *          - For parameters 'LowPowerAutoWait' and 'DMAContinuousRequests': ADC enabled without conversion on going on regular and injected groups.
   *         If ADC is not in the appropriate state to modify some parameters, these parameters setting is bypassed
-  *         without error reporting (as it can be the expected behaviour in case of intended action to update another parameter (which fullfills the ADC state condition) on the fly).
+  *         without error reporting (as it can be the expected behaviour in case of intended action to update another parameter (which fulfills the ADC state condition) on the fly).
   */
 typedef struct
 {
@@ -690,7 +690,7 @@ typedef struct
 #if defined(STM32F302xE)
 /* ADC external triggers specific to device STM302xE: mask to differentiate   */
 /* standard triggers from specific timer 20U, needed for reallocation of       */
-/* triggers common to ADC1&2 and to avoind mixing with standard               */
+/* triggers common to ADC1&2 and to avoid mixing with standard               */
 /* triggers without remap.                                                    */
 #define ADC_EXTERNALTRIGCONV_T20_MASK       0x1000
 
@@ -3961,3 +3961,5 @@ HAL_StatusTypeDef       HAL_ADCEx_MultiModeConfigChannel(struct __ADC_HandleType
 #endif
 
 #endif /*__STM32F3xx_ADC_H */
+
+

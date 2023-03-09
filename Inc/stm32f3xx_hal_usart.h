@@ -725,7 +725,8 @@ HAL_StatusTypeDef HAL_USART_UnRegisterCallback(USART_HandleTypeDef *husart, HAL_
   */
 
 /* IO operation functions *****************************************************/
-HAL_StatusTypeDef HAL_USART_Transmit(USART_HandleTypeDef *husart, const uint8_t *pTxData, uint16_t Size, uint32_t Timeout);
+HAL_StatusTypeDef HAL_USART_Transmit(USART_HandleTypeDef *husart, const uint8_t *pTxData, uint16_t Size,
+                                     uint32_t Timeout);
 HAL_StatusTypeDef HAL_USART_Receive(USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size, uint32_t Timeout);
 HAL_StatusTypeDef HAL_USART_TransmitReceive(USART_HandleTypeDef *husart, const uint8_t *pTxData, uint8_t *pRxData,
                                             uint16_t Size, uint32_t Timeout);
@@ -786,3 +787,4 @@ uint32_t               HAL_USART_GetError(const USART_HandleTypeDef *husart);
 #endif
 
 #endif /* STM32F3xx_HAL_USART_H */
+

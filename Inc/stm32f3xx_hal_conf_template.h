@@ -14,7 +14,7 @@
   * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
-  */
+  */ 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F3xx_HAL_CONF_H
@@ -351,3 +351,6 @@
 #endif
 
 #endif /* __STM32F3xx_HAL_CONF_H */
+
+
+

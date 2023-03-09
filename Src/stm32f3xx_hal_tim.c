@@ -29,7 +29,6 @@
   *           + Commutation Event configuration with Interruption and DMA
   *           + TIM OCRef clear configuration
   *           + TIM External Clock configuration
-  *
   ******************************************************************************
   * @attention
   *
@@ -283,6 +282,7 @@ HAL_StatusTypeDef HAL_TIM_Base_Init(TIM_HandleTypeDef *htim)
   assert_param(IS_TIM_INSTANCE(htim->Instance));
   assert_param(IS_TIM_COUNTER_MODE(htim->Init.CounterMode));
   assert_param(IS_TIM_CLOCKDIVISION_DIV(htim->Init.ClockDivision));
+  assert_param(IS_TIM_PERIOD(htim, htim->Init.Period));
   assert_param(IS_TIM_AUTORELOAD_PRELOAD(htim->Init.AutoReloadPreload));
 
   if (htim->State == HAL_TIM_STATE_RESET)
@@ -544,7 +544,7 @@ HAL_StatusTypeDef HAL_TIM_Base_Start_DMA(TIM_HandleTypeDef *htim, const uint32_t
   }
   else if (htim->State == HAL_TIM_STATE_READY)
   {
-    if ((pData == NULL) && (Length > 0U))
+    if ((pData == NULL) || (Length == 0U))
     {
       return HAL_ERROR;
     }
@@ -666,6 +666,7 @@ HAL_StatusTypeDef HAL_TIM_OC_Init(TIM_HandleTypeDef *htim)
   assert_param(IS_TIM_INSTANCE(htim->Instance));
   assert_param(IS_TIM_COUNTER_MODE(htim->Init.CounterMode));
   assert_param(IS_TIM_CLOCKDIVISION_DIV(htim->Init.ClockDivision));
+  assert_param(IS_TIM_PERIOD(htim, htim->Init.Period));
   assert_param(IS_TIM_AUTORELOAD_PRELOAD(htim->Init.AutoReloadPreload));
 
   if (htim->State == HAL_TIM_STATE_RESET)
@@ -1073,7 +1074,7 @@ HAL_StatusTypeDef HAL_TIM_OC_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel
   }
   else if (TIM_CHANNEL_STATE_GET(htim, Channel) == HAL_TIM_CHANNEL_STATE_READY)
   {
-    if ((pData == NULL) && (Length > 0U))
+    if ((pData == NULL) || (Length == 0U))
     {
       return HAL_ERROR;
     }
@@ -1336,6 +1337,7 @@ HAL_StatusTypeDef HAL_TIM_PWM_Init(TIM_HandleTypeDef *htim)
   assert_param(IS_TIM_INSTANCE(htim->Instance));
   assert_param(IS_TIM_COUNTER_MODE(htim->Init.CounterMode));
   assert_param(IS_TIM_CLOCKDIVISION_DIV(htim->Init.ClockDivision));
+  assert_param(IS_TIM_PERIOD(htim, htim->Init.Period));
   assert_param(IS_TIM_AUTORELOAD_PRELOAD(htim->Init.AutoReloadPreload));
 
   if (htim->State == HAL_TIM_STATE_RESET)
@@ -1743,7 +1745,7 @@ HAL_StatusTypeDef HAL_TIM_PWM_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channe
   }
   else if (TIM_CHANNEL_STATE_GET(htim, Channel) == HAL_TIM_CHANNEL_STATE_READY)
   {
-    if ((pData == NULL) && (Length > 0U))
+    if ((pData == NULL) || (Length == 0U))
     {
       return HAL_ERROR;
     }
@@ -2005,6 +2007,7 @@ HAL_StatusTypeDef HAL_TIM_IC_Init(TIM_HandleTypeDef *htim)
   assert_param(IS_TIM_INSTANCE(htim->Instance));
   assert_param(IS_TIM_COUNTER_MODE(htim->Init.CounterMode));
   assert_param(IS_TIM_CLOCKDIVISION_DIV(htim->Init.ClockDivision));
+  assert_param(IS_TIM_PERIOD(htim, htim->Init.Period));
   assert_param(IS_TIM_AUTORELOAD_PRELOAD(htim->Init.AutoReloadPreload));
 
   if (htim->State == HAL_TIM_STATE_RESET)
@@ -2398,7 +2401,7 @@ HAL_StatusTypeDef HAL_TIM_IC_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel
   else if ((channel_state == HAL_TIM_CHANNEL_STATE_READY)
            && (complementary_channel_state == HAL_TIM_CHANNEL_STATE_READY))
   {
-    if ((pData == NULL) && (Length > 0U))
+    if ((pData == NULL) || (Length == 0U))
     {
       return HAL_ERROR;
     }
@@ -2654,6 +2657,7 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_Init(TIM_HandleTypeDef *htim, uint32_t OnePul
   assert_param(IS_TIM_COUNTER_MODE(htim->Init.CounterMode));
   assert_param(IS_TIM_CLOCKDIVISION_DIV(htim->Init.ClockDivision));
   assert_param(IS_TIM_OPM_MODE(OnePulseMode));
+  assert_param(IS_TIM_PERIOD(htim, htim->Init.Period));
   assert_param(IS_TIM_AUTORELOAD_PRELOAD(htim->Init.AutoReloadPreload));
 
   if (htim->State == HAL_TIM_STATE_RESET)
@@ -3031,7 +3035,7 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Out
   * @param  sConfig TIM Encoder Interface configuration structure
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_TIM_Encoder_Init(TIM_HandleTypeDef *htim,  TIM_Encoder_InitTypeDef *sConfig)
+HAL_StatusTypeDef HAL_TIM_Encoder_Init(TIM_HandleTypeDef *htim, const TIM_Encoder_InitTypeDef *sConfig)
 {
   uint32_t tmpsmcr;
   uint32_t tmpccmr1;
@@ -3057,6 +3061,7 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Init(TIM_HandleTypeDef *htim,  TIM_Encoder_Ini
   assert_param(IS_TIM_IC_PRESCALER(sConfig->IC2Prescaler));
   assert_param(IS_TIM_IC_FILTER(sConfig->IC1Filter));
   assert_param(IS_TIM_IC_FILTER(sConfig->IC2Filter));
+  assert_param(IS_TIM_PERIOD(htim, htim->Init.Period));
 
   if (htim->State == HAL_TIM_STATE_RESET)
   {
@@ -3566,7 +3571,7 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Ch
     else if ((channel_1_state == HAL_TIM_CHANNEL_STATE_READY)
              && (complementary_channel_1_state == HAL_TIM_CHANNEL_STATE_READY))
     {
-      if ((pData1 == NULL) && (Length > 0U))
+      if ((pData1 == NULL) || (Length == 0U))
       {
         return HAL_ERROR;
       }
@@ -3591,7 +3596,7 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Ch
     else if ((channel_2_state == HAL_TIM_CHANNEL_STATE_READY)
              && (complementary_channel_2_state == HAL_TIM_CHANNEL_STATE_READY))
     {
-      if ((pData2 == NULL) && (Length > 0U))
+      if ((pData2 == NULL) || (Length == 0U))
       {
         return HAL_ERROR;
       }
@@ -3620,7 +3625,7 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Ch
              && (complementary_channel_1_state == HAL_TIM_CHANNEL_STATE_READY)
              && (complementary_channel_2_state == HAL_TIM_CHANNEL_STATE_READY))
     {
-      if ((((pData1 == NULL) || (pData2 == NULL))) && (Length > 0U))
+      if ((((pData1 == NULL) || (pData2 == NULL))) || (Length == 0U))
       {
         return HAL_ERROR;
       }
@@ -4559,8 +4564,8 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim,  TIM_O
   *            @arg TIM_DMABASE_BDTR
   *            @arg TIM_DMABASE_OR
   *            @arg TIM_DMABASE_CCMR3 (*)
-  *            @arg TIM_DMABASE_CCR5 (*)
-  *            @arg TIM_DMABASE_CCR6 (*)
+  *            @arg TIM_DMABASE_CCR5  (*)
+  *            @arg TIM_DMABASE_CCR6  (*)
   *         (*) value not defined in all devices
   * @param  BurstRequestSrc TIM DMA Request sources
   *         This parameter can be one of the following values:
@@ -4580,13 +4585,11 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim,  TIM_O
 HAL_StatusTypeDef HAL_TIM_DMABurst_WriteStart(TIM_HandleTypeDef *htim, uint32_t BurstBaseAddress,
                                               uint32_t BurstRequestSrc, const uint32_t *BurstBuffer, uint32_t  BurstLength)
 {
-  HAL_StatusTypeDef status = HAL_OK;
+  HAL_StatusTypeDef status;
 
-  if (status == HAL_OK)
-  {
-    status = HAL_TIM_DMABurst_MultiWriteStart(htim, BurstBaseAddress, BurstRequestSrc, BurstBuffer, BurstLength,
-                                              ((BurstLength) >> 8U) + 1U);
-  }
+  status = HAL_TIM_DMABurst_MultiWriteStart(htim, BurstBaseAddress, BurstRequestSrc, BurstBuffer, BurstLength,
+                                            ((BurstLength) >> 8U) + 1U);
+
 
 
   return status;
@@ -4617,8 +4620,8 @@ HAL_StatusTypeDef HAL_TIM_DMABurst_WriteStart(TIM_HandleTypeDef *htim, uint32_t 
   *            @arg TIM_DMABASE_BDTR
   *            @arg TIM_DMABASE_OR
   *            @arg TIM_DMABASE_CCMR3 (*)
-  *            @arg TIM_DMABASE_CCR5 (*)
-  *            @arg TIM_DMABASE_CCR6 (*)
+  *            @arg TIM_DMABASE_CCR5  (*)
+  *            @arg TIM_DMABASE_CCR6  (*)
   *         (*) value not defined in all devices
   * @param  BurstRequestSrc TIM DMA Request sources
   *         This parameter can be one of the following values:
@@ -4908,8 +4911,8 @@ HAL_StatusTypeDef HAL_TIM_DMABurst_WriteStop(TIM_HandleTypeDef *htim, uint32_t B
   *            @arg TIM_DMABASE_BDTR
   *            @arg TIM_DMABASE_OR
   *            @arg TIM_DMABASE_CCMR3 (*)
-  *            @arg TIM_DMABASE_CCR5 (*)
-  *            @arg TIM_DMABASE_CCR6 (*)
+  *            @arg TIM_DMABASE_CCR5  (*)
+  *            @arg TIM_DMABASE_CCR6  (*)
   *         (*) value not defined in all devices
   * @param  BurstRequestSrc TIM DMA Request sources
   *         This parameter can be one of the following values:
@@ -4929,13 +4932,11 @@ HAL_StatusTypeDef HAL_TIM_DMABurst_WriteStop(TIM_HandleTypeDef *htim, uint32_t B
 HAL_StatusTypeDef HAL_TIM_DMABurst_ReadStart(TIM_HandleTypeDef *htim, uint32_t BurstBaseAddress,
                                              uint32_t BurstRequestSrc, uint32_t  *BurstBuffer, uint32_t  BurstLength)
 {
-  HAL_StatusTypeDef status = HAL_OK;
+  HAL_StatusTypeDef status;
 
-  if (status == HAL_OK)
-  {
-    status = HAL_TIM_DMABurst_MultiReadStart(htim, BurstBaseAddress, BurstRequestSrc, BurstBuffer, BurstLength,
-                                             ((BurstLength) >> 8U) + 1U);
-  }
+  status = HAL_TIM_DMABurst_MultiReadStart(htim, BurstBaseAddress, BurstRequestSrc, BurstBuffer, BurstLength,
+                                           ((BurstLength) >> 8U) + 1U);
+
 
   return status;
 }
@@ -4965,8 +4966,8 @@ HAL_StatusTypeDef HAL_TIM_DMABurst_ReadStart(TIM_HandleTypeDef *htim, uint32_t B
   *            @arg TIM_DMABASE_BDTR
   *            @arg TIM_DMABASE_OR
   *            @arg TIM_DMABASE_CCMR3 (*)
-  *            @arg TIM_DMABASE_CCR5 (*)
-  *            @arg TIM_DMABASE_CCR6 (*)
+  *            @arg TIM_DMABASE_CCR5  (*)
+  *            @arg TIM_DMABASE_CCR6  (*)
   *         (*) value not defined in all devices
   * @param  BurstRequestSrc TIM DMA Request sources
   *         This parameter can be one of the following values:
@@ -5324,8 +5325,8 @@ HAL_StatusTypeDef HAL_TIM_ConfigOCrefClear(TIM_HandleTypeDef *htim,
     {
       /* Clear the OCREF clear selection bit */
       CLEAR_BIT(htim->Instance->SMCR, TIM_SMCR_OCCS);
+      break;
     }
-    break;
 #endif /* TIM_SMCR_OCCS */
 
     case TIM_CLEARINPUTSOURCE_ETR:
@@ -6017,8 +6018,6 @@ HAL_StatusTypeDef HAL_TIM_RegisterCallback(TIM_HandleTypeDef *htim, HAL_TIM_Call
   {
     return HAL_ERROR;
   }
-  /* Process locked */
-  __HAL_LOCK(htim);
 
   if (htim->State == HAL_TIM_STATE_READY)
   {
@@ -6216,9 +6215,6 @@ HAL_StatusTypeDef HAL_TIM_RegisterCallback(TIM_HandleTypeDef *htim, HAL_TIM_Call
     status = HAL_ERROR;
   }
 
-  /* Release Lock */
-  __HAL_UNLOCK(htim);
-
   return status;
 }
 
@@ -6263,9 +6259,6 @@ HAL_StatusTypeDef HAL_TIM_RegisterCallback(TIM_HandleTypeDef *htim, HAL_TIM_Call
 HAL_StatusTypeDef HAL_TIM_UnRegisterCallback(TIM_HandleTypeDef *htim, HAL_TIM_CallbackIDTypeDef CallbackID)
 {
   HAL_StatusTypeDef status = HAL_OK;
-
-  /* Process locked */
-  __HAL_LOCK(htim);
 
   if (htim->State == HAL_TIM_STATE_READY)
   {
@@ -6504,9 +6497,6 @@ HAL_StatusTypeDef HAL_TIM_UnRegisterCallback(TIM_HandleTypeDef *htim, HAL_TIM_Ca
     /* Return error status */
     status = HAL_ERROR;
   }
-
-  /* Release Lock */
-  __HAL_UNLOCK(htim);
 
   return status;
 }

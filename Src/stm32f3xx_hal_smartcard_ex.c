@@ -29,7 +29,6 @@
     (#) After having configured the SMARTCARD basic features with HAL_SMARTCARD_Init(),
         then program SMARTCARD advanced features if required (TX/RX pins swap, TimeOut,
         auto-retry counter,...) in the hsmartcard AdvancedInit structure.
-
   @endverbatim
   ******************************************************************************
   */
@@ -195,3 +194,4 @@ HAL_StatusTypeDef HAL_SMARTCARDEx_DisableReceiverTimeOut(SMARTCARD_HandleTypeDef
 /**
   * @}
   */
+

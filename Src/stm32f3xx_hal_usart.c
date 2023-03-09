@@ -405,6 +405,8 @@ __weak void HAL_USART_MspDeInit(USART_HandleTypeDef *husart)
 /**
   * @brief  Register a User USART Callback
   *         To be used instead of the weak predefined callback
+  * @note   The HAL_USART_RegisterCallback() may be called before HAL_USART_Init() in HAL_USART_STATE_RESET
+  *         to register callbacks for HAL_USART_MSPINIT_CB_ID and HAL_USART_MSPDEINIT_CB_ID
   * @param  husart usart handle
   * @param  CallbackID ID of the callback to be registered
   *         This parameter can be one of the following values:
@@ -432,8 +434,6 @@ HAL_StatusTypeDef HAL_USART_RegisterCallback(USART_HandleTypeDef *husart, HAL_US
 
     return HAL_ERROR;
   }
-  /* Process locked */
-  __HAL_LOCK(husart);
 
   if (husart->State == HAL_USART_STATE_READY)
   {
@@ -515,15 +515,14 @@ HAL_StatusTypeDef HAL_USART_RegisterCallback(USART_HandleTypeDef *husart, HAL_US
     status =  HAL_ERROR;
   }
 
-  /* Release Lock */
-  __HAL_UNLOCK(husart);
-
   return status;
 }
 
 /**
   * @brief  Unregister an USART Callback
   *         USART callaback is redirected to the weak predefined callback
+  * @note   The HAL_USART_UnRegisterCallback() may be called before HAL_USART_Init() in HAL_USART_STATE_RESET
+  *         to un-register callbacks for HAL_USART_MSPINIT_CB_ID and HAL_USART_MSPDEINIT_CB_ID
   * @param  husart usart handle
   * @param  CallbackID ID of the callback to be unregistered
   *         This parameter can be one of the following values:
@@ -541,9 +540,6 @@ HAL_StatusTypeDef HAL_USART_RegisterCallback(USART_HandleTypeDef *husart, HAL_US
 HAL_StatusTypeDef HAL_USART_UnRegisterCallback(USART_HandleTypeDef *husart, HAL_USART_CallbackIDTypeDef CallbackID)
 {
   HAL_StatusTypeDef status = HAL_OK;
-
-  /* Process locked */
-  __HAL_LOCK(husart);
 
   if (HAL_USART_STATE_READY == husart->State)
   {
@@ -624,9 +620,6 @@ HAL_StatusTypeDef HAL_USART_UnRegisterCallback(USART_HandleTypeDef *husart, HAL_
     /* Return error status */
     status =  HAL_ERROR;
   }
-
-  /* Release Lock */
-  __HAL_UNLOCK(husart);
 
   return status;
 }
@@ -728,7 +721,8 @@ HAL_StatusTypeDef HAL_USART_UnRegisterCallback(USART_HandleTypeDef *husart, HAL_
   * @param  Timeout Timeout duration.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_USART_Transmit(USART_HandleTypeDef *husart, const uint8_t *pTxData, uint16_t Size, uint32_t Timeout)
+HAL_StatusTypeDef HAL_USART_Transmit(USART_HandleTypeDef *husart, const uint8_t *pTxData, uint16_t Size,
+                                     uint32_t Timeout)
 {
   const uint8_t  *ptxdata8bits;
   const uint16_t *ptxdata16bits;
@@ -1182,7 +1176,7 @@ HAL_StatusTypeDef HAL_USART_Receive_IT(USART_HandleTypeDef *husart, uint8_t *pRx
 
       /* Enable the USART Parity Error and Data Register not empty Interrupts */
       if (husart->Init.Parity != USART_PARITY_NONE)
-      {  
+      {
         SET_BIT(husart->Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
       }
       else
@@ -1265,7 +1259,7 @@ HAL_StatusTypeDef HAL_USART_TransmitReceive_IT(USART_HandleTypeDef *husart, cons
 
       /* Enable the USART Parity Error and USART Data Register not empty Interrupts */
       if (husart->Init.Parity != USART_PARITY_NONE)
-      {  
+      {
         SET_BIT(husart->Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
       }
       else
@@ -1685,7 +1679,7 @@ HAL_StatusTypeDef HAL_USART_DMAResume(USART_HandleTypeDef *husart)
 
     /* Re-enable PE and ERR (Frame error, noise error, overrun error) interrupts */
     if (husart->Init.Parity != USART_PARITY_NONE)
-    {    
+    {
       SET_BIT(husart->Instance->CR1, USART_CR1_PEIE);
     }
     SET_BIT(husart->Instance->CR3, USART_CR3_EIE);
@@ -1777,9 +1771,10 @@ HAL_StatusTypeDef HAL_USART_Abort(USART_HandleTypeDef *husart)
   CLEAR_BIT(husart->Instance->CR1, (USART_CR1_RXNEIE | USART_CR1_PEIE | USART_CR1_TXEIE | USART_CR1_TCIE));
   CLEAR_BIT(husart->Instance->CR3, USART_CR3_EIE);
 
-  /* Disable the USART DMA Tx request if enabled */
+  /* Abort the USART DMA Tx channel if enabled */
   if (HAL_IS_BIT_SET(husart->Instance->CR3, USART_CR3_DMAT))
   {
+    /* Disable the USART DMA Tx request if enabled */
     CLEAR_BIT(husart->Instance->CR3, USART_CR3_DMAT);
 
     /* Abort the USART DMA Tx channel : use blocking DMA Abort API (no callback) */
@@ -1802,9 +1797,10 @@ HAL_StatusTypeDef HAL_USART_Abort(USART_HandleTypeDef *husart)
     }
   }
 
-  /* Disable the USART DMA Rx request if enabled */
+  /* Abort the USART DMA Rx channel if enabled */
   if (HAL_IS_BIT_SET(husart->Instance->CR3, USART_CR3_DMAR))
   {
+    /* Disable the USART DMA Rx request if enabled */
     CLEAR_BIT(husart->Instance->CR3, USART_CR3_DMAR);
 
     /* Abort the USART DMA Rx channel : use blocking DMA Abort API (no callback) */
@@ -1899,7 +1895,7 @@ HAL_StatusTypeDef HAL_USART_Abort_IT(USART_HandleTypeDef *husart)
     }
   }
 
-  /* Disable the USART DMA Tx request if enabled */
+  /* Abort the USART DMA Tx channel if enabled */
   if (HAL_IS_BIT_SET(husart->Instance->CR3, USART_CR3_DMAT))
   {
     /* Disable DMA Tx at USART level */
@@ -1923,9 +1919,10 @@ HAL_StatusTypeDef HAL_USART_Abort_IT(USART_HandleTypeDef *husart)
     }
   }
 
-  /* Disable the USART DMA Rx request if enabled */
+  /* Abort the USART DMA Rx channel if enabled */
   if (HAL_IS_BIT_SET(husart->Instance->CR3, USART_CR3_DMAR))
   {
+    /* Disable the USART DMA Rx request if enabled */
     CLEAR_BIT(husart->Instance->CR3, USART_CR3_DMAR);
 
     /* Abort the USART DMA Rx channel : use non blocking DMA Abort API (callback) */
@@ -2082,9 +2079,10 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
            Disable Interrupts, and disable DMA requests, if ongoing */
         USART_EndTransfer(husart);
 
-        /* Disable the USART DMA Rx request if enabled */
+        /* Abort the USART DMA Rx channel if enabled */
         if (HAL_IS_BIT_SET(husart->Instance->CR3, USART_CR3_DMAR))
         {
+          /* Disable the USART DMA Rx request if enabled */
           CLEAR_BIT(husart->Instance->CR3, USART_CR3_DMAR | USART_CR3_DMAR);
 
           /* Abort the USART DMA Tx channel */
@@ -3134,3 +3132,4 @@ static void USART_RxISR_16BIT(USART_HandleTypeDef *husart)
 /**
   * @}
   */
+

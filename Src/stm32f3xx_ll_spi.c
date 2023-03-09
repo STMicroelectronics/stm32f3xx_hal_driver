@@ -637,3 +637,4 @@ ErrorStatus  LL_I2S_InitFullDuplex(SPI_TypeDef *I2Sxext, LL_I2S_InitTypeDef *I2S
   */
 
 #endif /* USE_FULL_LL_DRIVER */
+

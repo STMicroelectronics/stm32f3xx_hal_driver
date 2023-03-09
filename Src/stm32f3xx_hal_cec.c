@@ -10,6 +10,7 @@
   *           + IO operation function
   *           + Peripheral Control function
   *
+  *
   ******************************************************************************
   * @attention
   *
@@ -104,7 +105,6 @@
   When the compilation define USE_HAL_CEC_REGISTER_CALLBACKS is set to 0 or
   not defined, the callback registration feature is not available and all callbacks
   are set to the corresponding weak functions.
-
   @endverbatim
   ******************************************************************************
   */
@@ -233,7 +233,8 @@ HAL_StatusTypeDef HAL_CEC_Init(CEC_HandleTypeDef *hcec)
 
   /* Write to CEC Control Register */
   hcec->Instance->CFGR = hcec->Init.SignalFreeTime | hcec->Init.Tolerance | hcec->Init.BRERxStop | \
-                         hcec->Init.BREErrorBitGen | hcec->Init.LBPEErrorBitGen | hcec->Init.BroadcastMsgNoErrorBitGen | \
+                         hcec->Init.BREErrorBitGen | hcec->Init.LBPEErrorBitGen | \
+                         hcec->Init.BroadcastMsgNoErrorBitGen | \
                          hcec->Init.SignalFreeTimeOption | ((uint32_t)(hcec->Init.OwnAddress) << 16U) | \
                          hcec->Init.ListenMode;
 
@@ -412,10 +413,10 @@ __weak void HAL_CEC_MspDeInit(CEC_HandleTypeDef *hcec)
   * @param  hcec CEC handle
   * @param  CallbackID ID of the callback to be registered
   *         This parameter can be one of the following values:
-  *          @arg @ref HAL_CEC_TX_CPLT_CB_ID Tx Complete callback ID
-  *          @arg @ref HAL_CEC_ERROR_CB_ID Error callback ID
-  *          @arg @ref HAL_CEC_MSPINIT_CB_ID MspInit callback ID
-  *          @arg @ref HAL_CEC_MSPDEINIT_CB_ID MspDeInit callback ID
+  *          @arg HAL_CEC_TX_CPLT_CB_ID Tx Complete callback ID
+  *          @arg HAL_CEC_ERROR_CB_ID Error callback ID
+  *          @arg HAL_CEC_MSPINIT_CB_ID MspInit callback ID
+  *          @arg HAL_CEC_MSPDEINIT_CB_ID MspDeInit callback ID
   * @param  pCallback pointer to the Callback function
   * @retval HAL status
   */
@@ -497,14 +498,14 @@ HAL_StatusTypeDef HAL_CEC_RegisterCallback(CEC_HandleTypeDef *hcec, HAL_CEC_Call
 
 /**
   * @brief  Unregister an CEC Callback
-  *         CEC callabck is redirected to the weak predefined callback
+  *         CEC callback is redirected to the weak predefined callback
   * @param hcec uart handle
   * @param CallbackID ID of the callback to be unregistered
   *         This parameter can be one of the following values:
-  *          @arg @ref HAL_CEC_TX_CPLT_CB_ID Tx Complete callback ID
-  *          @arg @ref HAL_CEC_ERROR_CB_ID Error callback ID
-  *          @arg @ref HAL_CEC_MSPINIT_CB_ID MspInit callback ID
-  *          @arg @ref HAL_CEC_MSPDEINIT_CB_ID MspDeInit callback ID
+  *          @arg HAL_CEC_TX_CPLT_CB_ID Tx Complete callback ID
+  *          @arg HAL_CEC_ERROR_CB_ID Error callback ID
+  *          @arg HAL_CEC_MSPINIT_CB_ID MspInit callback ID
+  *          @arg HAL_CEC_MSPDEINIT_CB_ID MspDeInit callback ID
   * @retval status
   */
 HAL_StatusTypeDef HAL_CEC_UnRegisterCallback(CEC_HandleTypeDef *hcec, HAL_CEC_CallbackIDTypeDef CallbackID)
@@ -829,7 +830,7 @@ void HAL_CEC_IRQHandler(CEC_HandleTypeDef *hcec)
       __HAL_CEC_LAST_BYTE_TX_SET(hcec);
     }
     /* In all cases transmit the byte */
-    hcec->Instance->TXDR = (uint8_t)*hcec->pTxBuffPtr;
+    hcec->Instance->TXDR = (uint8_t) * hcec->pTxBuffPtr;
     hcec->pTxBuffPtr++;
     /* clear Tx-Byte request flag */
     __HAL_CEC_CLEAR_FLAG(hcec, CEC_FLAG_TXBR);
@@ -855,7 +856,7 @@ void HAL_CEC_IRQHandler(CEC_HandleTypeDef *hcec)
 
   /* ----------------------------Rx/Tx Error Management----------------------------------*/
   if ((itflag & (CEC_ISR_RXOVR | CEC_ISR_BRE | CEC_ISR_SBPE | CEC_ISR_LBPE | CEC_ISR_RXACKE | CEC_ISR_TXUDR |
-              CEC_ISR_TXERR | CEC_ISR_TXACKE)) != 0U)
+                 CEC_ISR_TXERR | CEC_ISR_TXACKE)) != 0U)
   {
     hcec->ErrorCode = itflag;
     __HAL_CEC_CLEAR_FLAG(hcec, HAL_CEC_ERROR_RXOVR | HAL_CEC_ERROR_BRE | CEC_FLAG_LBPE | CEC_FLAG_SBPE |
@@ -959,7 +960,8 @@ __weak void HAL_CEC_ErrorCallback(CEC_HandleTypeDef *hcec)
   */
 HAL_CEC_StateTypeDef HAL_CEC_GetState(const CEC_HandleTypeDef *hcec)
 {
-  uint32_t temp1, temp2;
+  uint32_t temp1;
+  uint32_t temp2;
   temp1 = hcec->gState;
   temp2 = hcec->RxState;
 

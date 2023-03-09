@@ -160,13 +160,14 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
   * @param  __CLOCKSOURCE__ output variable.
   * @retval UART clocking source, written in __CLOCKSOURCE__.
   */
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx) || defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx)
+#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx) || defined(STM32F302xC) \
+ || defined(STM32F303xC) || defined(STM32F358xx)
 #define UART_GETCLOCKSOURCE(__HANDLE__,__CLOCKSOURCE__)       \
   do {                                                        \
     if((__HANDLE__)->Instance == USART1)                      \
     {                                                         \
-       switch(__HAL_RCC_GET_USART1_SOURCE())                  \
-       {                                                      \
+      switch(__HAL_RCC_GET_USART1_SOURCE())                   \
+      {                                                       \
         case RCC_USART1CLKSOURCE_PCLK2:                       \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK2;         \
           break;                                              \
@@ -182,12 +183,12 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else if((__HANDLE__)->Instance == USART2)                 \
     {                                                         \
-       switch(__HAL_RCC_GET_USART2_SOURCE())                  \
-       {                                                      \
+      switch(__HAL_RCC_GET_USART2_SOURCE())                   \
+      {                                                       \
         case RCC_USART2CLKSOURCE_PCLK1:                       \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
           break;                                              \
@@ -203,12 +204,12 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else if((__HANDLE__)->Instance == USART3)                 \
     {                                                         \
-       switch(__HAL_RCC_GET_USART3_SOURCE())                  \
-       {                                                      \
+      switch(__HAL_RCC_GET_USART3_SOURCE())                   \
+      {                                                       \
         case RCC_USART3CLKSOURCE_PCLK1:                       \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
           break;                                              \
@@ -224,12 +225,12 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else if((__HANDLE__)->Instance == UART4)                  \
     {                                                         \
-       switch(__HAL_RCC_GET_UART4_SOURCE())                   \
-       {                                                      \
+      switch(__HAL_RCC_GET_UART4_SOURCE())                    \
+      {                                                       \
         case RCC_UART4CLKSOURCE_PCLK1:                        \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
           break;                                              \
@@ -245,12 +246,12 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else if ((__HANDLE__)->Instance == UART5)                 \
     {                                                         \
-       switch(__HAL_RCC_GET_UART5_SOURCE())                   \
-       {                                                      \
+      switch(__HAL_RCC_GET_UART5_SOURCE())                    \
+      {                                                       \
         case RCC_UART5CLKSOURCE_PCLK1:                        \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
           break;                                              \
@@ -266,20 +267,21 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else                                                      \
     {                                                         \
       (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;         \
     }                                                         \
   } while(0U)
-#elif defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx) || defined(STM32F301x8) || defined(STM32F302x8) || defined(STM32F318xx)
+#elif defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx) || defined(STM32F301x8) \
+  || defined(STM32F302x8) || defined(STM32F318xx)
 #define UART_GETCLOCKSOURCE(__HANDLE__,__CLOCKSOURCE__)       \
   do {                                                        \
     if((__HANDLE__)->Instance == USART1)                      \
     {                                                         \
-       switch(__HAL_RCC_GET_USART1_SOURCE())                  \
-       {                                                      \
+      switch(__HAL_RCC_GET_USART1_SOURCE())                   \
+      {                                                       \
         case RCC_USART1CLKSOURCE_PCLK1:                       \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
           break;                                              \
@@ -295,7 +297,7 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else if((__HANDLE__)->Instance == USART2)                 \
     {                                                         \
@@ -315,8 +317,8 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
   do {                                                        \
     if((__HANDLE__)->Instance == USART1)                      \
     {                                                         \
-       switch(__HAL_RCC_GET_USART1_SOURCE())                  \
-       {                                                      \
+      switch(__HAL_RCC_GET_USART1_SOURCE())                   \
+      {                                                       \
         case RCC_USART1CLKSOURCE_PCLK2:                       \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK2;         \
           break;                                              \
@@ -332,12 +334,12 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else if((__HANDLE__)->Instance == USART2)                 \
     {                                                         \
-       switch(__HAL_RCC_GET_USART2_SOURCE())                  \
-       {                                                      \
+      switch(__HAL_RCC_GET_USART2_SOURCE())                   \
+      {                                                       \
         case RCC_USART2CLKSOURCE_PCLK1:                       \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
           break;                                              \
@@ -353,12 +355,12 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else if((__HANDLE__)->Instance == USART3)                 \
     {                                                         \
-       switch(__HAL_RCC_GET_USART3_SOURCE())                  \
-       {                                                      \
+      switch(__HAL_RCC_GET_USART3_SOURCE())                   \
+      {                                                       \
         case RCC_USART3CLKSOURCE_PCLK1:                       \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
           break;                                              \
@@ -374,7 +376,7 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
         default:                                              \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
-       }                                                      \
+      }                                                       \
     }                                                         \
     else                                                      \
     {                                                         \
@@ -508,3 +510,4 @@ HAL_UART_RxEventTypeTypeDef HAL_UARTEx_GetRxEventType(UART_HandleTypeDef *huart)
 #endif
 
 #endif /* STM32F3xx_HAL_UART_EX_H */
+

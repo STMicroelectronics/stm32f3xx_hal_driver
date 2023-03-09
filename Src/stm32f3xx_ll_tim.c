@@ -54,7 +54,7 @@
                                             || ((__VALUE__) == LL_TIM_CLOCKDIVISION_DIV2) \
                                             || ((__VALUE__) == LL_TIM_CLOCKDIVISION_DIV4))
 
-#if   defined(TIM_CCMR1_OC1M_3)
+#if defined(TIM_CCMR1_OC1M_3)
 #define IS_LL_TIM_OCMODE(__VALUE__) (((__VALUE__) == LL_TIM_OCMODE_FROZEN) \
                                      || ((__VALUE__) == LL_TIM_OCMODE_ACTIVE) \
                                      || ((__VALUE__) == LL_TIM_OCMODE_INACTIVE) \
@@ -78,7 +78,7 @@
                                      || ((__VALUE__) == LL_TIM_OCMODE_FORCED_ACTIVE) \
                                      || ((__VALUE__) == LL_TIM_OCMODE_PWM1) \
                                      || ((__VALUE__) == LL_TIM_OCMODE_PWM2))
-#endif
+#endif /* TIM_CCMR1_OC1M_3 */
 
 #define IS_LL_TIM_OCSTATE(__VALUE__) (((__VALUE__) == LL_TIM_OCSTATE_DISABLE) \
                                       || ((__VALUE__) == LL_TIM_OCSTATE_ENABLE))
@@ -232,7 +232,7 @@ static ErrorStatus IC4Config(TIM_TypeDef *TIMx, const LL_TIM_IC_InitTypeDef *TIM
   *          - SUCCESS: TIMx registers are de-initialized
   *          - ERROR: invalid TIMx instance
   */
-ErrorStatus LL_TIM_DeInit(TIM_TypeDef *TIMx)
+ErrorStatus LL_TIM_DeInit(const TIM_TypeDef *TIMx)
 {
   ErrorStatus result = SUCCESS;
 
@@ -1451,3 +1451,4 @@ static ErrorStatus IC4Config(TIM_TypeDef *TIMx, const LL_TIM_IC_InitTypeDef *TIM
   */
 
 #endif /* USE_FULL_LL_DRIVER */
+

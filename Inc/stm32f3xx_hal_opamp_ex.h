@@ -87,3 +87,4 @@ HAL_StatusTypeDef HAL_OPAMPEx_SelfCalibrateAll(OPAMP_HandleTypeDef *hopamp1, OPA
 #endif
 
 #endif /* STM32F3xx_HAL_OPAMP_EX_H */
+

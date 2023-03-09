@@ -6,17 +6,8 @@
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
   *           + Initialization and de-initialization functions
-  *             ++ Initialization and Configuration of ADC
-  *           + Operation functions
-  *             ++ Start, stop, get result of conversions of regular
-  *                group, using 3 possible modes: polling, interruption or DMA.
-  *           + Control functions
-  *             ++ Channels configuration on regular group
-  *             ++ Channels configuration on injected group
-  *             ++ Analog Watchdog configuration
-  *           + State functions
-  *             ++ ADC state machine management
-  *             ++ Interrupts and flags management
+  *           + Peripheral Control functions
+  *           + Peripheral State functions
   *          Other functions (extended functions) are available in file 
   *          "stm32f3xx_hal_adc_ex.c".
   *
@@ -392,8 +383,7 @@
      not defined, the callback registration feature is not available and all callbacks
      are set to the corresponding weak functions.
   
-  @endverbatim
-  ******************************************************************************
+    @endverbatim
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -796,7 +786,7 @@ __weak HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef* hadc)
   *         should be preliminarily stopped using HAL_ADCEx_InjectedStop function.
   * @note:  Case of multimode enabled (for devices with several ADCs): This 
   *         function must be called for ADC master first, then ADC slave.
-  *         For ADC master, converson is stopped and ADC is disabled. 
+  *         For ADC master, conversion is stopped and ADC is disabled. 
   *         For ADC slave, ADC is disabled only (conversion stop of ADC master
   *         has already stopped conversion of ADC slave).
   * @param  hadc ADC handle
@@ -1095,7 +1085,7 @@ __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
   * @note   Possibility to update parameters on the fly:
   *         This function initializes channel into regular group, following  
   *         calls to this function can be used to reconfigure some parameters 
-  *         of structure "ADC_ChannelConfTypeDef" on the fly, without reseting 
+  *         of structure "ADC_ChannelConfTypeDef" on the fly, without resetting 
   *         the ADC.
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
@@ -1122,7 +1112,7 @@ __weak HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_Chan
   * @note   Possibility to update parameters on the fly:
   *         This function initializes the selected analog watchdog, following  
   *         calls to this function can be used to reconfigure some parameters 
-  *         of structure "ADC_AnalogWDGConfTypeDef" on the fly, without reseting 
+  *         of structure "ADC_AnalogWDGConfTypeDef" on the fly, without resetting 
   *         the ADC.
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
@@ -1210,3 +1200,4 @@ uint32_t HAL_ADC_GetError(ADC_HandleTypeDef *hadc)
 /**
   * @}
   */ 
+

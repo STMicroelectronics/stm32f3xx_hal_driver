@@ -6,6 +6,7 @@
   *          This file provides firmware functions to manage the extended 
   *          functionalities of the DAC peripheral.  
   *     
+  *
   ******************************************************************************
   * @attention
   *
@@ -28,7 +29,7 @@
       (+) Use HAL_DACEx_TriangleWaveGenerate() to generate Triangle signal.
       (+) Use HAL_DACEx_NoiseWaveGenerate() to generate Noise signal.
 
-  @endverbatim    
+ @endverbatim
   ******************************************************************************
   */
 
@@ -1157,3 +1158,4 @@ static void DAC_DMAErrorCh2(DMA_HandleTypeDef *hdma)
 /**
   * @}
   */
+

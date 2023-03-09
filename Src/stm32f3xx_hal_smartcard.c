@@ -198,7 +198,7 @@
 #define SMARTCARD_TEACK_REACK_TIMEOUT  1000U       /*!< SMARTCARD TX or RX enable acknowledge time-out value */
 
 #define USART_CR1_FIELDS  ((uint32_t)(USART_CR1_M | USART_CR1_PCE | USART_CR1_PS | USART_CR1_TE | \
-                                        USART_CR1_RE | USART_CR1_OVER8)) /*!< USART CR1 fields of parameters set by SMARTCARD_SetConfig API */
+                                      USART_CR1_RE | USART_CR1_OVER8)) /*!< USART CR1 fields of parameters set by SMARTCARD_SetConfig API */
 
 #define USART_CR2_CLK_FIELDS  ((uint32_t)(USART_CR2_CLKEN | USART_CR2_CPOL | \
                                           USART_CR2_CPHA | USART_CR2_LBCL)) /*!< SMARTCARD clock-related USART CR2 fields of parameters */
@@ -461,6 +461,9 @@ __weak void HAL_SMARTCARD_MspDeInit(SMARTCARD_HandleTypeDef *hsmartcard)
 /**
   * @brief  Register a User SMARTCARD Callback
   *         To be used instead of the weak predefined callback
+  * @note   The HAL_SMARTCARD_RegisterCallback() may be called before HAL_SMARTCARD_Init()
+  *         in HAL_SMARTCARD_STATE_RESET to register callbacks for HAL_SMARTCARD_MSPINIT_CB_ID
+  *         and HAL_SMARTCARD_MSPDEINIT_CB_ID
   * @param  hsmartcard smartcard handle
   * @param  CallbackID ID of the callback to be registered
   *         This parameter can be one of the following values:
@@ -488,8 +491,6 @@ HAL_StatusTypeDef HAL_SMARTCARD_RegisterCallback(SMARTCARD_HandleTypeDef *hsmart
 
     return HAL_ERROR;
   }
-  /* Process locked */
-  __HAL_LOCK(hsmartcard);
 
   if (hsmartcard->gState == HAL_SMARTCARD_STATE_READY)
   {
@@ -568,15 +569,15 @@ HAL_StatusTypeDef HAL_SMARTCARD_RegisterCallback(SMARTCARD_HandleTypeDef *hsmart
     status =  HAL_ERROR;
   }
 
-  /* Release Lock */
-  __HAL_UNLOCK(hsmartcard);
-
   return status;
 }
 
 /**
   * @brief  Unregister an SMARTCARD callback
   *         SMARTCARD callback is redirected to the weak predefined callback
+  * @note   The HAL_SMARTCARD_UnRegisterCallback() may be called before HAL_SMARTCARD_Init()
+  *         in HAL_SMARTCARD_STATE_RESET to un-register callbacks for HAL_SMARTCARD_MSPINIT_CB_ID
+  *         and HAL_SMARTCARD_MSPDEINIT_CB_ID
   * @param  hsmartcard smartcard handle
   * @param  CallbackID ID of the callback to be unregistered
   *         This parameter can be one of the following values:
@@ -594,9 +595,6 @@ HAL_StatusTypeDef HAL_SMARTCARD_UnRegisterCallback(SMARTCARD_HandleTypeDef *hsma
                                                    HAL_SMARTCARD_CallbackIDTypeDef CallbackID)
 {
   HAL_StatusTypeDef status = HAL_OK;
-
-  /* Process locked */
-  __HAL_LOCK(hsmartcard);
 
   if (HAL_SMARTCARD_STATE_READY == hsmartcard->gState)
   {
@@ -675,9 +673,6 @@ HAL_StatusTypeDef HAL_SMARTCARD_UnRegisterCallback(SMARTCARD_HandleTypeDef *hsma
     /* Return error status */
     status =  HAL_ERROR;
   }
-
-  /* Release Lock */
-  __HAL_UNLOCK(hsmartcard);
 
   return status;
 }
@@ -2934,3 +2929,4 @@ static void SMARTCARD_RxISR(SMARTCARD_HandleTypeDef *hsmartcard)
 /**
   * @}
   */
+

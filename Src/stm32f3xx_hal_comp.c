@@ -6,8 +6,6 @@
   *          This file provides firmware functions to manage the following
   *          functionalities of the COMP peripheral:
   *           + Initialization and de-initialization functions
-  *           + Start/Stop operation functions in polling mode.
-  *           + Start/Stop operation functions in interrupt mode.
   *           + Peripheral Control functions
   *           + Peripheral State functions
   *
@@ -162,7 +160,6 @@
      not defined, the callback registration feature is not available and all callbacks
      are set to the corresponding weak functions.
 
-  @endverbatim
   ******************************************************************************
   */
 
@@ -1073,3 +1070,4 @@ uint32_t HAL_COMP_GetError(COMP_HandleTypeDef *hcomp)
 /**
   * @}
   */
+

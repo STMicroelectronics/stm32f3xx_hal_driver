@@ -86,6 +86,7 @@
       (@) You can refer to the CAN Legacy HAL driver header file for more useful macros
                 
   @endverbatim
+           
   ******************************************************************************
   */
 

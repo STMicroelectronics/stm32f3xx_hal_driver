@@ -676,7 +676,7 @@ HAL_StatusTypeDef HAL_CAN_RegisterCallback(CAN_HandleTypeDef *hcan, HAL_CAN_Call
 
 /**
   * @brief  Unregister a CAN CallBack.
-  *         CAN callabck is redirected to the weak predefined callback
+  *         CAN callback is redirected to the weak predefined callback
   * @param  hcan pointer to a CAN_HandleTypeDef structure that contains
   *         the configuration information for CAN module
   * @param  CallbackID ID of the callback to be unregistered
@@ -1236,15 +1236,6 @@ HAL_StatusTypeDef HAL_CAN_AddTxMessage(CAN_HandleTypeDef *hcan, const CAN_TxHead
       /* Select an empty transmit mailbox */
       transmitmailbox = (tsr & CAN_TSR_CODE) >> CAN_TSR_CODE_Pos;
 
-      /* Check transmit mailbox value */
-      if (transmitmailbox > 2U)
-      {
-        /* Update error code */
-        hcan->ErrorCode |= HAL_CAN_ERROR_INTERNAL;
-
-        return HAL_ERROR;
-      }
-
       /* Store the Tx mailbox */
       *pTxMailbox = (uint32_t)1 << transmitmailbox;
 
@@ -1517,7 +1508,15 @@ HAL_StatusTypeDef HAL_CAN_GetRxMessage(CAN_HandleTypeDef *hcan, uint32_t RxFifo,
                         hcan->Instance->sFIFOMailBox[RxFifo].RIR) >> CAN_RI0R_EXID_Pos;
     }
     pHeader->RTR = (CAN_RI0R_RTR & hcan->Instance->sFIFOMailBox[RxFifo].RIR);
-    pHeader->DLC = (CAN_RDT0R_DLC & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_DLC_Pos;
+    if (((CAN_RDT0R_DLC & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_DLC_Pos) >= 8U)
+    {
+      /* Truncate DLC to 8 if received field is over range */
+      pHeader->DLC = 8U;
+    }
+    else
+    {
+      pHeader->DLC = (CAN_RDT0R_DLC & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_DLC_Pos;
+    }
     pHeader->FilterMatchIndex = (CAN_RDT0R_FMI & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_FMI_Pos;
     pHeader->Timestamp = (CAN_RDT0R_TIME & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_TIME_Pos;
 

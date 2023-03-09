@@ -5,16 +5,10 @@
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
-  *           + Operation functions
-  *             ++ Start, stop, get result of conversions of injected
-  *                group, using 2 possible modes: polling, interruption.
-  *             ++ Multimode feature (available on devices with 2 ADCs or more)
-  *             ++ Calibration (ADC automatic self-calibration)
-  *           + Control functions
-  *             ++ Channels configuration on injected group
+  *           + Peripheral Control functions
   *          Other functions (generic functions) are available in file 
   *          "stm32f3xx_hal_adc.c".
-  *         
+  *
   ******************************************************************************
   * @attention
   *
@@ -32,7 +26,6 @@
       available in file of generic functions "stm32f3xx_hal_adc.c".
   [..]
   @endverbatim
-  ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -5543,7 +5536,7 @@ __weak void HAL_ADCEx_LevelOutOfWindow3Callback(ADC_HandleTypeDef* hadc)
   * @note   Possibility to update parameters on the fly:
   *         This function initializes channel into regular group, following  
   *         calls to this function can be used to reconfigure some parameters 
-  *         of structure "ADC_ChannelConfTypeDef" on the fly, without reseting 
+  *         of structure "ADC_ChannelConfTypeDef" on the fly, without resetting 
   *         the ADC.
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
@@ -5877,7 +5870,7 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
   * @note   Possibility to update parameters on the fly:
   *         This function initializes channel into regular group, following  
   *         calls to this function can be used to reconfigure some parameters 
-  *         of structure "ADC_ChannelConfTypeDef" on the fly, without reseting 
+  *         of structure "ADC_ChannelConfTypeDef" on the fly, without resetting 
   *         the ADC.
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
@@ -5983,7 +5976,7 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
   * @note   Possibility to update parameters on the fly:
   *         This function initializes injected group, following calls to this 
   *         function can be used to reconfigure some parameters of structure
-  *         "ADC_InjectionConfTypeDef" on the fly, without reseting the ADC.
+  *         "ADC_InjectionConfTypeDef" on the fly, without resetting the ADC.
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
   *         "ADC_InjectionConfTypeDef".
@@ -6508,7 +6501,7 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedConfigChannel(ADC_HandleTypeDef* hadc, ADC_I
   * @note   Possibility to update parameters on the fly:
   *         This function initializes injected group, following calls to this 
   *         function can be used to reconfigure some parameters of structure
-  *         "ADC_InjectionConfTypeDef" on the fly, without reseting the ADC.
+  *         "ADC_InjectionConfTypeDef" on the fly, without resetting the ADC.
   *         The setting of these parameters is conditioned to ADC state: 
   *         this function must be called when ADC is not under conversion.
   * @note   In case of usage of internal measurement channels:
@@ -6761,7 +6754,7 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedConfigChannel(ADC_HandleTypeDef* hadc, ADC_I
   * @note   Possibility to update parameters on the fly:
   *         This function initializes the selected analog watchdog, following  
   *         calls to this function can be used to reconfigure some parameters 
-  *         of structure "ADC_AnalogWDGConfTypeDef" on the fly, without reseting 
+  *         of structure "ADC_AnalogWDGConfTypeDef" on the fly, without resetting 
   *         the ADC.
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
@@ -6896,7 +6889,7 @@ HAL_StatusTypeDef HAL_ADC_AnalogWDGConfig(ADC_HandleTypeDef* hadc, ADC_AnalogWDG
       {
         /* Set the Analog watchdog channel or group of channels. This also    */
         /* enables the watchdog.                                              */
-        /* Note: Conditionnal register reset, because several channels can be */
+        /* Note: Conditional register reset, because several channels can be */
         /*       set by successive calls of this function.                    */
         if (AnalogWDGConfig->WatchdogMode != ADC_ANALOGWATCHDOG_NONE) 
         {
@@ -7044,7 +7037,7 @@ HAL_StatusTypeDef HAL_ADC_AnalogWDGConfig(ADC_HandleTypeDef* hadc, ADC_AnalogWDG
   * @note   Possibility to update parameters on the fly:
   *         This function initializes multimode parameters, following  
   *         calls to this function can be used to reconfigure some parameters 
-  *         of structure "ADC_MultiModeTypeDef" on the fly, without reseting 
+  *         of structure "ADC_MultiModeTypeDef" on the fly, without resetting 
   *         the ADCs (both ADCs of the common group).
   *         The setting of these parameters is conditioned to ADC state.
   *         For parameters constraints, see comments of structure 
@@ -7094,7 +7087,7 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeConfigChannel(ADC_HandleTypeDef* hadc, ADC_
     /* control registers)                                                     */
     tmpADC_Common = ADC_COMMON_REGISTER(hadc);
     
-    /* If multimode is selected, configure all multimode paramaters.          */
+    /* If multimode is selected, configure all multimode parameters.          */
     /* Otherwise, reset multimode parameters (can be used in case of          */
     /* transition from multimode to independent mode).                        */
     if(multimode->Mode != ADC_MODE_INDEPENDENT)
@@ -7631,3 +7624,4 @@ static HAL_StatusTypeDef ADC_ConversionStop_Disable(ADC_HandleTypeDef* hadc)
 /**
   * @}
   */ 
+

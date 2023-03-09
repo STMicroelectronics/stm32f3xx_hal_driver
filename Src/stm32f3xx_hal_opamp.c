@@ -4,11 +4,7 @@
   * @author  MCD Application Team
   * @brief   OPAMP HAL module driver.
   *          This file provides firmware functions to manage the following
-  *          functionalities of the operational amplifiers (OPAMP1,...OPAMP4)
-  *          peripheral:
-  *           + OPAMP Configuration
-  *           + OPAMP calibration
-  *          Thanks to
+  *          functionalities of the operational amplifiers peripheral:
   *           + Initialization/de-initialization functions
   *           + I/O operation functions
   *           + Peripheral Control functions
@@ -681,7 +677,7 @@ HAL_StatusTypeDef HAL_OPAMP_SelfCalibrate(OPAMP_HandleTypeDef *hopamp)
         delta >>= 1U;
       }
 
-      /* Still need to check if righ calibration is current value or un step below */
+      /* Still need to check if right calibration is current value or un step below */
       /* Indeed the first value that causes the OUTCAL bit to change from 1 to 0  */
       MODIFY_REG(hopamp->Instance->CSR, OPAMP_CSR_TRIMOFFSETN, trimmingvaluen << OPAMP_INPUT_INVERTING);
 
@@ -730,7 +726,7 @@ HAL_StatusTypeDef HAL_OPAMP_SelfCalibrate(OPAMP_HandleTypeDef *hopamp)
         delta >>= 1U;
       }
 
-      /* Still need to check if righ calibration is current value or un step below */
+      /* Still need to check if right calibration is current value or un step below */
       /* Indeed the first value that causes the OUTCAL bit to change from 1 to 0U */
       /* Set candidate trimming */
       MODIFY_REG(hopamp->Instance->CSR, OPAMP_CSR_TRIMOFFSETP, trimmingvaluep << OPAMP_INPUT_NONINVERTING);
@@ -759,7 +755,7 @@ HAL_StatusTypeDef HAL_OPAMP_SelfCalibrate(OPAMP_HandleTypeDef *hopamp)
       CLEAR_BIT(hopamp->Instance->CSR, OPAMP_CSR_FORCEVP);
 
       /* Self calibration is successful  */
-      /* Store calibration(user timming) results in init structure. */
+      /* Store calibration(user trimming) results in init structure. */
 
       /* Write calibration result N */
       hopamp->Init.TrimmingValueN = trimmingvaluen;
@@ -767,7 +763,7 @@ HAL_StatusTypeDef HAL_OPAMP_SelfCalibrate(OPAMP_HandleTypeDef *hopamp)
       /* Write calibration result P */
       hopamp->Init.TrimmingValueP = trimmingvaluep;
 
-      /* Select user timming mode */
+      /* Select user trimming mode */
       /* And updated with calibrated settings */
       hopamp->Init.UserTrimming = OPAMP_TRIMMING_USER;
       MODIFY_REG(hopamp->Instance->CSR, OPAMP_CSR_TRIMOFFSETP, trimmingvaluep << OPAMP_INPUT_NONINVERTING);
@@ -915,7 +911,7 @@ OPAMP_TrimmingValueTypeDef HAL_OPAMP_GetTrimOffset(OPAMP_HandleTypeDef *hopamp, 
       oldtrimmingvaluen = (hopamp->Instance->CSR & OPAMP_CSR_TRIMOFFSETN) >> OPAMP_INPUT_INVERTING;
     }
 
-    /* Set factory timming mode */
+    /* Set factory trimming mode */
     CLEAR_BIT(hopamp->Instance->CSR, OPAMP_CSR_USERTRIM);
 
     /* Get factory trimming  */
@@ -1099,3 +1095,5 @@ HAL_StatusTypeDef HAL_OPAMP_UnRegisterCallback(OPAMP_HandleTypeDef *hopamp, HAL_
 /**
   * @}
   */
+
+

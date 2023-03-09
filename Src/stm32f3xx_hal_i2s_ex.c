@@ -6,7 +6,6 @@
   *          This file provides firmware functions to manage the following
   *          functionalities of I2S extension peripheral:
   *           + Extension features Functions
-  *
   ******************************************************************************
   * @attention
   *
@@ -84,8 +83,6 @@
         |       |       I2Sx_ext        |------------------->I2Sx_extSD(in/out)
          +----->|                       |
                 +-----------------------+
-
-  ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -1135,3 +1132,4 @@ static HAL_StatusTypeDef I2SEx_FullDuplexWaitFlagStateUntilTimeout(I2S_HandleTyp
 /**
   * @}
   */
+

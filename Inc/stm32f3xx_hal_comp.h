@@ -331,3 +331,4 @@ uint32_t              HAL_COMP_GetError(COMP_HandleTypeDef *hcomp);
 #endif
 
 #endif /* STM32F3xx_HAL_COMP_H */
+

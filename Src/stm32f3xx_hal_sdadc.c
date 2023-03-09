@@ -11,7 +11,6 @@
   *           + Power saving
   *           + Regular/Injected Channels DMA Configuration
   *           + Interrupts and flags management
-  *
   ******************************************************************************
   * @attention
   *
@@ -234,9 +233,8 @@
      not defined, the callback registration feature is not available and all callbacks
      are set to the corresponding weak functions.
   
-  @endverbatim
-  ******************************************************************************
-  */
+    @endverbatim
+  */ 
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
@@ -2355,9 +2353,10 @@ uint32_t HAL_SDADC_InjectedMultiModeGetValue(SDADC_HandleTypeDef* hsdadc)
 void HAL_SDADC_IRQHandler(SDADC_HandleTypeDef* hsdadc)
 {
   uint32_t tmp_isr = hsdadc->Instance->ISR;
+  uint32_t tmp_cr1 = hsdadc->Instance->CR1;
     
   /* Check if end of regular conversion */
-  if(((hsdadc->Instance->CR1 & SDADC_CR1_REOCIE) == SDADC_CR1_REOCIE) &&
+  if(((tmp_cr1 & SDADC_CR1_REOCIE) == SDADC_CR1_REOCIE) &&
      ((tmp_isr & SDADC_ISR_REOCF) == SDADC_ISR_REOCF))
   {
     /* Call regular conversion complete callback */
@@ -2380,7 +2379,7 @@ void HAL_SDADC_IRQHandler(SDADC_HandleTypeDef* hsdadc)
     }
   }
   /* Check if end of injected conversion */
-  else if(((hsdadc->Instance->CR1 & SDADC_CR1_JEOCIE) == SDADC_CR1_JEOCIE) &&
+  else if(((tmp_cr1 & SDADC_CR1_JEOCIE) == SDADC_CR1_JEOCIE) &&
           ((tmp_isr & SDADC_ISR_JEOCF) == SDADC_ISR_JEOCF))
   {
     /* Call injected conversion complete callback */
@@ -2412,7 +2411,7 @@ void HAL_SDADC_IRQHandler(SDADC_HandleTypeDef* hsdadc)
     }
   }
   /* Check if end of calibration */
-  else if(((hsdadc->Instance->CR1 & SDADC_CR1_EOCALIE) == SDADC_CR1_EOCALIE) &&
+  else if(((tmp_cr1 & SDADC_CR1_EOCALIE) == SDADC_CR1_EOCALIE) &&
           ((tmp_isr & SDADC_ISR_EOCALF) == SDADC_ISR_EOCALF))
   {
     /* Clear EOCALIE bit in SDADC_CR1 register */
@@ -2432,7 +2431,7 @@ void HAL_SDADC_IRQHandler(SDADC_HandleTypeDef* hsdadc)
     hsdadc->State = HAL_SDADC_STATE_READY;
   }
   /* Check if overrun occurs during regular conversion */
-  else if(((hsdadc->Instance->CR1 & SDADC_CR1_ROVRIE) == SDADC_CR1_ROVRIE) &&
+  else if(((tmp_cr1 & SDADC_CR1_ROVRIE) == SDADC_CR1_ROVRIE) &&
           ((tmp_isr & SDADC_ISR_ROVRF) == SDADC_ISR_ROVRF))
   {
     /* Set CLRROVRF bit in SDADC_CLRISR register */
@@ -2449,7 +2448,7 @@ void HAL_SDADC_IRQHandler(SDADC_HandleTypeDef* hsdadc)
 #endif /* USE_HAL_SDADC_REGISTER_CALLBACKS */
   }
   /* Check if overrun occurs during injected conversion */
-  else if(((hsdadc->Instance->CR1 & SDADC_CR1_JOVRIE) == SDADC_CR1_JOVRIE) &&
+  else if(((tmp_cr1 & SDADC_CR1_JOVRIE) == SDADC_CR1_JOVRIE) &&
           ((tmp_isr & SDADC_ISR_JOVRF) == SDADC_ISR_JOVRF))
   {
     /* Set CLRJOVRF bit in SDADC_CLRISR register */
@@ -2782,7 +2781,7 @@ static HAL_StatusTypeDef SDADC_RegConvStart(SDADC_HandleTypeDef* hsdadc)
     /* Set RSWSTART bit in SDADC_CR2 register */
     hsdadc->Instance->CR2 |= SDADC_CR2_RSWSTART;
   }
-  else /* synchronuous trigger */
+  else /* synchronous trigger */
   {
     /* Enter init mode */
     if(SDADC_EnterInitMode(hsdadc) != HAL_OK)
@@ -2841,7 +2840,7 @@ static HAL_StatusTypeDef SDADC_RegConvStop(SDADC_HandleTypeDef* hsdadc)
       return HAL_TIMEOUT;
     }
   }
-  /* Check if trigger is synchronuous */
+  /* Check if trigger is synchronous */
   if(hsdadc->RegularTrigger == SDADC_SYNCHRONOUS_TRIGGER)
   {
     /* Enter init mode */
@@ -2899,7 +2898,7 @@ static HAL_StatusTypeDef SDADC_InjConvStart(SDADC_HandleTypeDef* hsdadc)
     /* Set JSWSTART bit in SDADC_CR2 register */
     hsdadc->Instance->CR2 |= SDADC_CR2_JSWSTART;
   }
-  else /* external or synchronuous trigger */
+  else /* external or synchronous trigger */
   {
     /* Enter init mode */
     if(SDADC_EnterInitMode(hsdadc) != HAL_OK)
@@ -2977,7 +2976,7 @@ static HAL_StatusTypeDef SDADC_InjConvStop(SDADC_HandleTypeDef* hsdadc)
     }
     else
     {
-      /* Check if trigger is synchronuous */
+      /* Check if trigger is synchronous */
       if(hsdadc->InjectedTrigger == SDADC_SYNCHRONOUS_TRIGGER)
       {
         /* Clear JSYNC bit in SDADC_CR1 register */

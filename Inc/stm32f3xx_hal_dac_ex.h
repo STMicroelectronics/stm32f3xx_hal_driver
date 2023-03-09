@@ -338,3 +338,4 @@ void HAL_DACEx_DMAUnderrunCallbackCh2(DAC_HandleTypeDef *hdac);
 #endif
 
 #endif /* STM32F3xx_HAL_HAL_EX_H */
+
