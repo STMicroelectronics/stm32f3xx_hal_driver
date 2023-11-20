@@ -1283,7 +1283,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Receive(I2C_HandleTypeDef *hi2c, uint16_t DevAd
     /* Set NBYTES to write and reload if hi2c->XferCount > MAX_NBYTE_SIZE and generate RESTART */
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
-      hi2c->XferSize = MAX_NBYTE_SIZE;
+      hi2c->XferSize = 1U;
       I2C_TransferConfig(hi2c, DevAddress, (uint8_t)hi2c->XferSize, I2C_RELOAD_MODE,
                          I2C_GENERATE_START_READ);
     }
@@ -1773,7 +1773,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Receive_IT(I2C_HandleTypeDef *hi2c, uint16_t De
 
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
-      hi2c->XferSize = MAX_NBYTE_SIZE;
+      hi2c->XferSize = 1U;
       xfermode = I2C_RELOAD_MODE;
     }
     else
@@ -2121,7 +2121,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Receive_DMA(I2C_HandleTypeDef *hi2c, uint16_t D
 
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
-      hi2c->XferSize = MAX_NBYTE_SIZE;
+      hi2c->XferSize = 1U;
       xfermode = I2C_RELOAD_MODE;
     }
     else
@@ -2668,7 +2668,7 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read(I2C_HandleTypeDef *hi2c, uint16_t DevAddress,
     /* Set NBYTES to write and reload if hi2c->XferCount > MAX_NBYTE_SIZE and generate RESTART */
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
-      hi2c->XferSize = MAX_NBYTE_SIZE;
+      hi2c->XferSize = 1U;
       I2C_TransferConfig(hi2c, DevAddress, (uint8_t)hi2c->XferSize, I2C_RELOAD_MODE,
                          I2C_GENERATE_START_READ);
     }
@@ -2706,7 +2706,7 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read(I2C_HandleTypeDef *hi2c, uint16_t DevAddress,
 
         if (hi2c->XferCount > MAX_NBYTE_SIZE)
         {
-          hi2c->XferSize = MAX_NBYTE_SIZE;
+          hi2c->XferSize = 1U;
           I2C_TransferConfig(hi2c, DevAddress, (uint8_t) hi2c->XferSize, I2C_RELOAD_MODE,
                              I2C_NO_STARTSTOP);
         }
@@ -4975,7 +4975,15 @@ static HAL_StatusTypeDef I2C_Master_ISR_IT(struct __I2C_HandleTypeDef *hi2c, uin
 
       if (hi2c->XferCount > MAX_NBYTE_SIZE)
       {
-        hi2c->XferSize = MAX_NBYTE_SIZE;
+        /* Errata workaround 170323 */
+        if (I2C_GET_DIR(hi2c) == I2C_DIRECTION_RECEIVE)
+        {
+          hi2c->XferSize = 1U;
+        }
+        else
+        {
+          hi2c->XferSize = MAX_NBYTE_SIZE;
+        }
         I2C_TransferConfig(hi2c, devaddress, (uint8_t)hi2c->XferSize, I2C_RELOAD_MODE, I2C_NO_STARTSTOP);
       }
       else
@@ -5130,7 +5138,15 @@ static HAL_StatusTypeDef I2C_Mem_ISR_IT(struct __I2C_HandleTypeDef *hi2c, uint32
     {
       if (hi2c->XferCount > MAX_NBYTE_SIZE)
       {
-        hi2c->XferSize = MAX_NBYTE_SIZE;
+        /* Errata workaround 170323 */
+        if (I2C_GET_DIR(hi2c) == I2C_DIRECTION_RECEIVE)
+        {
+          hi2c->XferSize = 1U;
+        }
+        else
+        {
+          hi2c->XferSize = MAX_NBYTE_SIZE;
+        }
         I2C_TransferConfig(hi2c, (uint16_t)hi2c->Devaddress, (uint8_t)hi2c->XferSize,
                            I2C_RELOAD_MODE, I2C_NO_STARTSTOP);
       }
@@ -5164,7 +5180,15 @@ static HAL_StatusTypeDef I2C_Mem_ISR_IT(struct __I2C_HandleTypeDef *hi2c, uint32
 
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
-      hi2c->XferSize = MAX_NBYTE_SIZE;
+      /* Errata workaround 170323 */
+      if (I2C_GET_DIR(hi2c) == I2C_DIRECTION_RECEIVE)
+      {
+        hi2c->XferSize = 1U;
+      }
+      else
+      {
+        hi2c->XferSize = MAX_NBYTE_SIZE;
+      }
 
       /* Set NBYTES to write and reload if hi2c->XferCount > MAX_NBYTE_SIZE and generate RESTART */
       I2C_TransferConfig(hi2c, (uint16_t)hi2c->Devaddress, (uint8_t)hi2c->XferSize,
@@ -5385,7 +5409,15 @@ static HAL_StatusTypeDef I2C_Master_ISR_DMA(struct __I2C_HandleTypeDef *hi2c, ui
       /* Prepare the new XferSize to transfer */
       if (hi2c->XferCount > MAX_NBYTE_SIZE)
       {
-        hi2c->XferSize = MAX_NBYTE_SIZE;
+        /* Errata workaround 170323 */
+        if (I2C_GET_DIR(hi2c) == I2C_DIRECTION_RECEIVE)
+        {
+          hi2c->XferSize = 1U;
+        }
+        else
+        {
+          hi2c->XferSize = MAX_NBYTE_SIZE;
+        }
         xfermode = I2C_RELOAD_MODE;
       }
       else
@@ -5533,7 +5565,15 @@ static HAL_StatusTypeDef I2C_Mem_ISR_DMA(struct __I2C_HandleTypeDef *hi2c, uint3
       /* Prepare the new XferSize to transfer */
       if (hi2c->XferCount > MAX_NBYTE_SIZE)
       {
-        hi2c->XferSize = MAX_NBYTE_SIZE;
+        /* Errata workaround 170323 */
+        if (I2C_GET_DIR(hi2c) == I2C_DIRECTION_RECEIVE)
+        {
+          hi2c->XferSize = 1U;
+        }
+        else
+        {
+          hi2c->XferSize = MAX_NBYTE_SIZE;
+        }
         I2C_TransferConfig(hi2c, (uint16_t)hi2c->Devaddress, (uint8_t)hi2c->XferSize,
                            I2C_RELOAD_MODE, I2C_NO_STARTSTOP);
       }
@@ -5580,7 +5620,15 @@ static HAL_StatusTypeDef I2C_Mem_ISR_DMA(struct __I2C_HandleTypeDef *hi2c, uint3
 
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
-      hi2c->XferSize = MAX_NBYTE_SIZE;
+      /* Errata workaround 170323 */
+      if (I2C_GET_DIR(hi2c) == I2C_DIRECTION_RECEIVE)
+      {
+        hi2c->XferSize = 1U;
+      }
+      else
+      {
+        hi2c->XferSize = MAX_NBYTE_SIZE;
+      }
 
       /* Set NBYTES to write and reload if hi2c->XferCount > MAX_NBYTE_SIZE and generate RESTART */
       I2C_TransferConfig(hi2c, (uint16_t)hi2c->Devaddress, (uint8_t)hi2c->XferSize,
@@ -6802,7 +6850,15 @@ static void I2C_DMAMasterReceiveCplt(DMA_HandleTypeDef *hdma)
     /* Set the XferSize to transfer */
     if (hi2c->XferCount > MAX_NBYTE_SIZE)
     {
-      hi2c->XferSize = MAX_NBYTE_SIZE;
+      /* Errata workaround 170323 */
+      if (I2C_GET_DIR(hi2c) == I2C_DIRECTION_RECEIVE)
+      {
+        hi2c->XferSize = 1U;
+      }
+      else
+      {
+        hi2c->XferSize = MAX_NBYTE_SIZE;
+      }
     }
     else
     {
